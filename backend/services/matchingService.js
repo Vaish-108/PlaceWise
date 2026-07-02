@@ -1,63 +1,39 @@
-const checkEligibility = (student, company) => {
+const { calculateMatchScore } = require("./matchScoreService");
 
+/**
+ * Compares a student against company requirements using the AI match score engine.
+ * @param {Object} student
+ * @param {Object} company
+ * @param {string[]} resumeSkills
+ * @returns {Object}
+ */
+const checkEligibility = (student, company, resumeSkills = []) =>
+  calculateMatchScore({
+    studentCGPA: student.cgpa,
+    profileSkills: student.skills,
+    resumeSkills,
+    requiredSkills: company.requiredSkills,
+    requiredCGPA: company.minCGPA,
+  });
 
-    const cgpaMatch =
-        student.cgpa >= company.minCGPA;
-
-
-
-    const studentSkills =
-        student.skills.map(skill =>
-            skill.toLowerCase()
-        );
-
-
-
-    const requiredSkills =
-        company.requiredSkills.map(skill =>
-            skill.toLowerCase()
-        );
-
-
-
-    const matchedSkills =
-        requiredSkills.filter(skill =>
-            studentSkills.includes(skill)
-        );
-
-
-
-    const skillMatch =
-        matchedSkills.length === requiredSkills.length;
-
-
-
-    return {
-
-        eligible:
-        cgpaMatch && skillMatch,
-
-
-        cgpaMatch,
-
-
-        skillMatch,
-
-
-        matchedSkills,
-
-
-        missingSkills:
-        requiredSkills.filter(skill =>
-            !studentSkills.includes(skill)
-        )
-
-    };
-
-};
-
-
+/**
+ * Compares a student against job requirements using the AI match score engine.
+ * @param {Object} student
+ * @param {Object} job
+ * @param {string[]} resumeSkills
+ * @returns {Object}
+ */
+const checkJobMatch = (student, job, resumeSkills = []) =>
+  calculateMatchScore({
+    studentCGPA: student.cgpa,
+    profileSkills: student.skills,
+    resumeSkills,
+    requiredSkills: job.requiredSkills,
+    requiredCGPA: job.minCGPA,
+  });
 
 module.exports = {
-    checkEligibility
+  checkEligibility,
+  checkJobMatch,
+  calculateMatchScore,
 };
