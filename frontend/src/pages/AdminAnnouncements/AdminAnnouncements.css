@@ -1,0 +1,177 @@
+.admin-announcements-page {
+  min-height: 100vh;
+  padding: 32px;
+  background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
+  color: #16213e;
+}
+
+.admin-announcements-header {
+  margin-bottom: 24px;
+}
+
+.admin-announcements-eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #4f46e5;
+}
+
+.admin-announcements-header h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+
+.admin-announcements-subtitle {
+  margin: 0;
+  color: #4b5563;
+  max-width: 680px;
+}
+
+.admin-announcements-content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+}
+
+.admin-announcements-form-card,
+.admin-announcements-list-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.admin-announcements-form-card h2,
+.admin-announcements-list-card h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+}
+
+.admin-announcements-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-announcements-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.admin-announcements-form input,
+.admin-announcements-form textarea {
+  padding: 10px 12px;
+  border: 1px solid #dbe4f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  outline: none;
+  resize: vertical;
+}
+
+.admin-announcements-form input:focus,
+.admin-announcements-form textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.admin-announcements-form button {
+  margin-top: 8px;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 14px;
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-announcements-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.admin-announcements-error {
+  margin-top: 12px;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.admin-announcements-success {
+  margin-top: 12px;
+  color: #166534;
+  font-weight: 600;
+}
+
+.admin-announcements-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.admin-announcements-list-header span {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.admin-announcements-status {
+  color: #64748b;
+  font-style: italic;
+}
+
+.admin-announcements-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-announcement-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  background: #f8fbff;
+}
+
+.admin-announcement-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.admin-announcement-card p {
+  margin: 0 0 10px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.admin-announcement-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .admin-announcements-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-announcements-page {
+    padding: 20px;
+  }
+
+  .admin-announcements-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .admin-announcement-meta {
+    flex-direction: column;
+  }
+}

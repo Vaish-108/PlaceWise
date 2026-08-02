@@ -1,0 +1,74 @@
+# ==========================
+# Dependencies
+# ==========================
+node_modules/
+**/node_modules/
+
+# ==========================
+# Environment Variables
+# ==========================
+.env
+.env.*
+!.env.example
+
+# ==========================
+# Logs
+# ==========================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================
+# Build Files
+# ==========================
+dist/
+build/
+coverage/
+
+# ==========================
+# OS Files
+# ==========================
+.DS_Store
+Thumbs.db
+
+# ==========================
+# VS Code
+# ==========================
+.vscode/
+!.vscode/extensions.json
+
+# ==========================
+# Temporary Files
+# ==========================
+.cache/
+.temp/
+tmp/
+
+# ==========================
+# Vercel
+# ==========================
+.vercel/
+
+# ==========================
+# IDE
+# ==========================
+.idea/
+
+# ==========================
+# Runtime Files
+# ==========================
+*.pid
+*.seed
+*.pid.lock
+
+# ==========================
+# Uploaded Files (Optional)
+# ==========================
+backend/uploads/
+
+PROJECT_NOTES.md/
+PROJECT_PROGRESS.md/
+
+.continue/
