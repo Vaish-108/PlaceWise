@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 import "./AdminProfile.css";
 
 function AdminProfile() {
@@ -16,7 +16,6 @@ function AdminProfile() {
     designation: "",
   });
   const [photoFile, setPhotoFile] = useState(null);
-  const navigate = useNavigate();
 
   const token = localStorage.getItem("adminToken");
 
@@ -145,20 +144,7 @@ function AdminProfile() {
 
   return (
     <div className="admin-dashboard-page">
-      <nav className="admin-navbar">
-        <div className="admin-navbar__brand">
-          <span className="admin-navbar__logo">PW</span>
-          <span>PlaceWise</span>
-        </div>
-
-        <div className="admin-navbar__links">
-          <button type="button" className="admin-navbar__link" onClick={() => navigate("/admin/dashboard")}>Dashboard</button>
-          <button type="button" className="admin-navbar__link" onClick={() => navigate("/admin/profile")}>Profile</button>
-          <button type="button" className="admin-navbar__link" onClick={() => navigate("/admin/companies")}>Companies</button>
-          <button type="button" className="admin-navbar__link" onClick={() => navigate("/admin/jobs")}>Jobs</button>
-          <button type="button" className="admin-navbar__link" onClick={() => navigate("/admin/queries")}>Queries</button>
-        </div>
-      </nav>
+      <AdminNavbar />
 
       <main className="admin-dashboard-content">
         <section className="admin-dashboard__hero">

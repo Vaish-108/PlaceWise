@@ -52,18 +52,6 @@
   color: #475569;
 }
 
-.admin-navbar__link {
-  background: none;
-  border: none;
-  color: #334155;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.admin-navbar__link--active {
-  color: #2563eb;
-}
-
 .admin-dashboard__state--success {
   color: #166534;
 }

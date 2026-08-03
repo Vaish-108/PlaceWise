@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 import "./AdminAnnouncements.css";
 
 function AdminAnnouncements() {
@@ -75,18 +76,21 @@ function AdminAnnouncements() {
 
   return (
     <div className="admin-announcements-page">
-      <div className="admin-announcements-header">
-        <div>
-          <p className="admin-announcements-eyebrow">Admin Portal</p>
-          <h1>Announcements</h1>
-          <p className="admin-announcements-subtitle">
-            Create and manage placement-related updates for students in one place.
-          </p>
-        </div>
-      </div>
+      <AdminNavbar />
 
-      <div className="admin-announcements-content">
-        <section className="admin-announcements-form-card">
+      <main className="admin-dashboard-content">
+        <div className="admin-announcements-header">
+          <div>
+            <p className="admin-announcements-eyebrow">Admin Portal</p>
+            <h1>Announcements</h1>
+            <p className="admin-announcements-subtitle">
+              Create and manage placement-related updates for students in one place.
+            </p>
+          </div>
+        </div>
+
+        <div className="admin-announcements-content">
+          <section className="admin-announcements-form-card">
           <h2>Create New Announcement</h2>
           <form onSubmit={handleSubmit} className="admin-announcements-form">
             <label>
@@ -120,40 +124,41 @@ function AdminAnnouncements() {
           {successMessage && <p className="admin-announcements-success">{successMessage}</p>}
         </section>
 
-        <section className="admin-announcements-list-card">
-          <div className="admin-announcements-list-header">
-            <h2>Recent Announcements</h2>
-            <span>{announcements.length} items</span>
-          </div>
-
-          {loading ? (
-            <p className="admin-announcements-status">Loading announcements...</p>
-          ) : error && announcements.length === 0 ? (
-            <p className="admin-announcements-status">{error}</p>
-          ) : announcements.length === 0 ? (
-            <p className="admin-announcements-status">No announcements yet.</p>
-          ) : (
-            <div className="admin-announcements-grid">
-              {announcements.map((announcement) => (
-                <article key={announcement._id} className="admin-announcement-card">
-                  <h3>{announcement.title}</h3>
-                  <p>{announcement.message}</p>
-                  <div className="admin-announcement-meta">
-                    <span>
-                      {announcement.createdAt
-                        ? new Date(announcement.createdAt).toLocaleDateString()
-                        : "Recently added"}
-                    </span>
-                    <span>
-                      {announcement.createdBy?.name || "Admin"}
-                    </span>
-                  </div>
-                </article>
-              ))}
+          <section className="admin-announcements-list-card">
+            <div className="admin-announcements-list-header">
+              <h2>Recent Announcements</h2>
+              <span>{announcements.length} items</span>
             </div>
-          )}
-        </section>
-      </div>
+
+            {loading ? (
+              <p className="admin-announcements-status">Loading announcements...</p>
+            ) : error && announcements.length === 0 ? (
+              <p className="admin-announcements-status">{error}</p>
+            ) : announcements.length === 0 ? (
+              <p className="admin-announcements-status">No announcements yet.</p>
+            ) : (
+              <div className="admin-announcements-grid">
+                {announcements.map((announcement) => (
+                  <article key={announcement._id} className="admin-announcement-card">
+                    <h3>{announcement.title}</h3>
+                    <p>{announcement.message}</p>
+                    <div className="admin-announcement-meta">
+                      <span>
+                        {announcement.createdAt
+                          ? new Date(announcement.createdAt).toLocaleDateString()
+                          : "Recently added"}
+                      </span>
+                      <span>
+                        {announcement.createdBy?.name || "Admin"}
+                      </span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+        </div>
+      </main>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 import "./AdminCompanies.css";
 
 function AdminCompanies() {
@@ -114,18 +115,21 @@ function AdminCompanies() {
 
   return (
     <div className="admin-companies-page">
-      <div className="admin-companies-header">
-        <div>
-          <p className="admin-companies-eyebrow">Admin Panel</p>
-          <h1>Company Management</h1>
-          <p className="admin-companies-subtitle">
-            Manage placement companies and add new opportunities for students.
-          </p>
-        </div>
-      </div>
+      <AdminNavbar />
 
-      <div className="admin-companies-content">
-        <section className="admin-companies-form-card">
+      <main className="admin-dashboard-content">
+        <div className="admin-companies-header">
+          <div>
+            <p className="admin-companies-eyebrow">Admin Panel</p>
+            <h1>Company Management</h1>
+            <p className="admin-companies-subtitle">
+              Manage placement companies and add new opportunities for students.
+            </p>
+          </div>
+        </div>
+
+        <div className="admin-companies-content">
+          <section className="admin-companies-form-card">
           <h2>Add New Company</h2>
           <form onSubmit={handleSubmit} className="admin-companies-form">
             <label>
@@ -195,44 +199,45 @@ function AdminCompanies() {
           {successMessage && <p className="admin-companies-success">{successMessage}</p>}
         </section>
 
-        <section className="admin-companies-list-card">
-          <div className="admin-companies-list-header">
-            <h2>Company List</h2>
-            <span>{companies.length} companies</span>
-          </div>
-
-          {loading ? (
-            <p className="admin-companies-status">Loading companies...</p>
-          ) : error && companies.length === 0 ? (
-            <p className="admin-companies-status">{error}</p>
-          ) : companies.length === 0 ? (
-            <p className="admin-companies-status">No companies available yet.</p>
-          ) : (
-            <div className="admin-companies-grid">
-              {companies.map((company, index) => (
-                <article key={company._id || `${company.name}-${index}`} className="admin-company-card">
-                  <h3>{company.name}</h3>
-                  <p>
-                    <strong>Role:</strong> {company.role}
-                  </p>
-                  <p>
-                    <strong>Package:</strong> {company.package}
-                  </p>
-                  <p>
-                    <strong>Required Skills:</strong>{" "}
-                    {Array.isArray(company.requiredSkills)
-                      ? company.requiredSkills.join(", ")
-                      : company.requiredSkills}
-                  </p>
-                  <p>
-                    <strong>Minimum CGPA:</strong> {company.minCGPA}
-                  </p>
-                </article>
-              ))}
+          <section className="admin-companies-list-card">
+            <div className="admin-companies-list-header">
+              <h2>Company List</h2>
+              <span>{companies.length} companies</span>
             </div>
-          )}
-        </section>
-      </div>
+
+            {loading ? (
+              <p className="admin-companies-status">Loading companies...</p>
+            ) : error && companies.length === 0 ? (
+              <p className="admin-companies-status">{error}</p>
+            ) : companies.length === 0 ? (
+              <p className="admin-companies-status">No companies available yet.</p>
+            ) : (
+              <div className="admin-companies-grid">
+                {companies.map((company, index) => (
+                  <article key={company._id || `${company.name}-${index}`} className="admin-company-card">
+                    <h3>{company.name}</h3>
+                    <p>
+                      <strong>Role:</strong> {company.role}
+                    </p>
+                    <p>
+                      <strong>Package:</strong> {company.package}
+                    </p>
+                    <p>
+                      <strong>Required Skills:</strong>{" "}
+                      {Array.isArray(company.requiredSkills)
+                        ? company.requiredSkills.join(", ")
+                        : company.requiredSkills}
+                    </p>
+                    <p>
+                      <strong>Minimum CGPA:</strong> {company.minCGPA}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+        </div>
+      </main>
     </div>
   );
 }

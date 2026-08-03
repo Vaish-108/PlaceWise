@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 import "./AdminDashboard.css";
 
 function AdminDashboard() {
   const [admin, setAdmin] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAdminProfile = async () => {
@@ -57,41 +56,9 @@ function AdminDashboard() {
     );
   }, [admin]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    navigate("/");
-  };
-
   return (
     <div className="admin-dashboard-page">
-      <nav className="admin-navbar">
-        <div className="admin-navbar__brand">
-          <span className="admin-navbar__logo">PW</span>
-          <span>PlaceWise</span>
-        </div>
-
-        <div className="admin-navbar__links">
-          <Link to="/admin/dashboard">Dashboard</Link>
-
-          <Link to="/admin/profile">Profile</Link>
-
-          <Link to="/admin/companies">Companies</Link>
-
-          <Link to="/admin/announcements">
-            Announcements
-          </Link>
-
-          <Link to="/admin/queries">Queries</Link>
-
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="admin-navbar__logout"
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
+      <AdminNavbar />
 
       <main className="admin-dashboard-content">
         <section className="admin-dashboard__hero">

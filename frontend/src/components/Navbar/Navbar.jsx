@@ -5,6 +5,9 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("studentToken");
+    localStorage.removeItem("user");
+    localStorage.removeItem("studentProfile");
     navigate("/login");
   };
 
@@ -31,11 +34,11 @@ function Navbar() {
         <NavLink to="/ai-dashboard" className={linkClass}>
           AI Mentor
         </NavLink>
-        <NavLink to="/tickets" className={linkClass}>
-          Queries
-        </NavLink>
         <NavLink to="/announcements" className={linkClass}>
           Announcements
+        </NavLink>
+        <NavLink to="/tickets" className={linkClass}>
+          Queries
         </NavLink>
         <NavLink to="/profile" className={linkClass}>
           Profile
