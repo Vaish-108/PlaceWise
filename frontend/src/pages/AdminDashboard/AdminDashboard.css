@@ -1,7 +1,7 @@
 .admin-dashboard-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
-  color: #0f172a;
+  background: linear-gradient(180deg, #000000 0%, #111111 100%);
+  color: #ffffff;
 }
 
 .admin-dashboard__hero {
@@ -11,26 +11,27 @@
 .admin-dashboard__hero h1 {
   font-size: 2rem;
   margin: 6px 0 8px;
+  color: #ffffff;
 }
 
 .admin-dashboard__state {
   padding: 16px 18px;
   border-radius: 16px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+  background: #171717;
+  border: 1px solid #2C2C2C;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
 }
 
 .admin-dashboard__state--error {
-  color: #b91c1c;
+  color: #EF4444;
 }
 
 .admin-profile-card,
 .admin-quick-action-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: #171717;
+  border: 1px solid #2C2C2C;
   border-radius: 20px;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
 }
 
 .admin-profile-card {
@@ -45,10 +46,10 @@
   width: 90px;
   height: 90px;
   border-radius: 24px;
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #00E5FF 0%, #00C8E6 100%);
   display: grid;
   place-items: center;
-  color: #ffffff;
+  color: #000000;
   font-size: 1.6rem;
   font-weight: 800;
   overflow: hidden;
@@ -69,12 +70,12 @@
 
 .admin-profile-card__details h2 {
   margin: 0;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .admin-profile-card__details p {
   margin: 0;
-  color: #475569;
+  color: #CFCFCF;
 }
 
 .admin-quick-actions {
@@ -89,12 +90,12 @@
 
 .admin-quick-action-card h3 {
   margin: 0 0 8px;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .admin-quick-action-card p {
   margin: 0;
-  color: #475569;
+  color: #CFCFCF;
   line-height: 1.6;
 }
 

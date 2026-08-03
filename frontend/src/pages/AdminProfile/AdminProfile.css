@@ -8,16 +8,16 @@
 }
 
 .admin-profile-panel {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: #171717;
+  border: 1px solid #2C2C2C;
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
 }
 
 .admin-profile-panel h3 {
   margin: 0 0 16px;
-  color: #0f172a;
+  color: #ffffff;
 }
 
 .admin-profile-photo-actions {
@@ -36,24 +36,26 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  color: #334155;
+  color: #CFCFCF;
   font-weight: 600;
 }
 
 .admin-profile-form input {
-  border: 1px solid #cbd5e1;
+  border: 1px solid #2C2C2C;
   border-radius: 12px;
   padding: 12px 14px;
   font: inherit;
+  background: #111111;
+  color: #ffffff;
 }
 
 .admin-profile-form input[readonly] {
-  background: #f8fafc;
-  color: #475569;
+  background: #111111;
+  color: #9A9A9A;
 }
 
 .admin-dashboard__state--success {
-  color: #166534;
+  color: #22C55E;
 }
 
 @media (max-width: 800px) {

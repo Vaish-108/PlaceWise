@@ -1,8 +1,8 @@
 .admin-announcements-page {
   min-height: 100vh;
   padding: 32px;
-  background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
-  color: #16213e;
+  background: linear-gradient(180deg, #000000 0%, #111111 100%);
+  color: #FFFFFF;
 }
 
 .admin-announcements-header {
@@ -15,7 +15,7 @@
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #4f46e5;
+  color: #00E5FF;
 }
 
 .admin-announcements-header h1 {
@@ -25,7 +25,7 @@
 
 .admin-announcements-subtitle {
   margin: 0;
-  color: #4b5563;
+  color: #D1D5DB;
   max-width: 680px;
 }
 
@@ -37,10 +37,11 @@
 
 .admin-announcements-form-card,
 .admin-announcements-list-card {
-  background: #ffffff;
+  background: #171717;
+  border: 1px solid #2C2C2C;
   border-radius: 18px;
   padding: 24px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
 }
 
 .admin-announcements-form-card h2,
@@ -48,6 +49,7 @@
   margin-top: 0;
   margin-bottom: 16px;
   font-size: 1.25rem;
+  color: #FFFFFF;
 }
 
 .admin-announcements-form {
@@ -61,32 +63,34 @@
   flex-direction: column;
   gap: 6px;
   font-weight: 600;
-  color: #334155;
+  color: #D1D5DB;
 }
 
 .admin-announcements-form input,
 .admin-announcements-form textarea {
   padding: 10px 12px;
-  border: 1px solid #dbe4f0;
+  border: 1px solid #2C2C2C;
   border-radius: 10px;
   font-size: 0.95rem;
   outline: none;
   resize: vertical;
+  background: #111111;
+  color: #FFFFFF;
 }
 
 .admin-announcements-form input:focus,
 .admin-announcements-form textarea:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+  border-color: #00E5FF;
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
 }
 
 .admin-announcements-form button {
   margin-top: 8px;
   border: none;
-  border-radius: 10px;
+  border-radius: 999px;
   padding: 11px 14px;
-  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-  color: white;
+  background: linear-gradient(135deg, #00E5FF 0%, #00C8E6 100%);
+  color: #000000;
   font-weight: 700;
   cursor: pointer;
 }
@@ -98,13 +102,13 @@
 
 .admin-announcements-error {
   margin-top: 12px;
-  color: #b91c1c;
+  color: #F87171;
   font-weight: 600;
 }
 
 .admin-announcements-success {
   margin-top: 12px;
-  color: #166534;
+  color: #4ADE80;
   font-weight: 600;
 }
 
@@ -116,12 +120,12 @@
 }
 
 .admin-announcements-list-header span {
-  color: #64748b;
+  color: #9CA3AF;
   font-weight: 600;
 }
 
 .admin-announcements-status {
-  color: #64748b;
+  color: #D1D5DB;
   font-style: italic;
 }
 
@@ -131,20 +135,21 @@
 }
 
 .admin-announcement-card {
-  border: 1px solid #e2e8f0;
+  border: 1px solid #2C2C2C;
   border-radius: 14px;
   padding: 16px;
-  background: #f8fbff;
+  background: #111111;
 }
 
 .admin-announcement-card h3 {
   margin: 0 0 10px;
   font-size: 1.1rem;
+  color: #FFFFFF;
 }
 
 .admin-announcement-card p {
   margin: 0 0 10px;
-  color: #475569;
+  color: #D1D5DB;
   line-height: 1.6;
 }
 
@@ -152,7 +157,7 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  color: #64748b;
+  color: #9CA3AF;
   font-size: 0.9rem;
 }
 

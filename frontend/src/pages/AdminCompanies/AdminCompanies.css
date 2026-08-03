@@ -1,8 +1,8 @@
 .admin-companies-page {
   min-height: 100vh;
   padding: 32px;
-  background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
-  color: #16213e;
+  background: linear-gradient(180deg, #000000 0%, #111111 100%);
+  color: #ffffff;
 }
 
 .admin-companies-header {
@@ -18,17 +18,18 @@
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #4f46e5;
+  color: #00E5FF;
 }
 
 .admin-companies-header h1 {
   margin: 0 0 8px;
   font-size: 2rem;
+  color: #ffffff;
 }
 
 .admin-companies-subtitle {
   margin: 0;
-  color: #4b5563;
+  color: #CFCFCF;
   max-width: 680px;
 }
 
@@ -40,10 +41,11 @@
 
 .admin-companies-form-card,
 .admin-companies-list-card {
-  background: #ffffff;
+  background: #171717;
+  border: 1px solid #2C2C2C;
   border-radius: 18px;
   padding: 24px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
 }
 
 .admin-companies-form-card h2,
@@ -51,6 +53,7 @@
   margin-top: 0;
   margin-bottom: 16px;
   font-size: 1.25rem;
+  color: #ffffff;
 }
 
 .admin-companies-form {
@@ -64,29 +67,31 @@
   flex-direction: column;
   gap: 6px;
   font-weight: 600;
-  color: #334155;
+  color: #CFCFCF;
 }
 
 .admin-companies-form input {
   padding: 10px 12px;
-  border: 1px solid #dbe4f0;
+  border: 1px solid #2C2C2C;
   border-radius: 10px;
   font-size: 0.95rem;
   outline: none;
+  background: #111111;
+  color: #ffffff;
 }
 
 .admin-companies-form input:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+  border-color: #00E5FF;
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
 }
 
 .admin-companies-form button {
   margin-top: 8px;
   border: none;
-  border-radius: 10px;
+  border-radius: 999px;
   padding: 11px 14px;
-  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-  color: white;
+  background: linear-gradient(135deg, #00E5FF 0%, #00C8E6 100%);
+  color: #000000;
   font-weight: 700;
   cursor: pointer;
 }
@@ -98,13 +103,13 @@
 
 .admin-companies-error {
   margin-top: 12px;
-  color: #b91c1c;
+  color: #EF4444;
   font-weight: 600;
 }
 
 .admin-companies-success {
   margin-top: 12px;
-  color: #166534;
+  color: #22C55E;
   font-weight: 600;
 }
 
@@ -116,12 +121,12 @@
 }
 
 .admin-companies-list-header span {
-  color: #64748b;
+  color: #9A9A9A;
   font-weight: 600;
 }
 
 .admin-companies-status {
-  color: #64748b;
+  color: #CFCFCF;
   font-style: italic;
 }
 
@@ -131,20 +136,21 @@
 }
 
 .admin-company-card {
-  border: 1px solid #e2e8f0;
+  border: 1px solid #2C2C2C;
   border-radius: 14px;
   padding: 16px;
-  background: #f8fbff;
+  background: #111111;
 }
 
 .admin-company-card h3 {
   margin: 0 0 10px;
   font-size: 1.1rem;
+  color: #ffffff;
 }
 
 .admin-company-card p {
   margin: 6px 0;
-  color: #475569;
+  color: #CFCFCF;
 }
 
 @media (max-width: 900px) {

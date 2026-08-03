@@ -1,7 +1,7 @@
 .announcements-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
-  color: #16213e;
+  background: linear-gradient(180deg, #000000 0%, #111111 100%);
+  color: #ffffff;
 }
 
 .student-dashboard-content {
@@ -20,7 +20,7 @@
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #4f46e5;
+  color: #00E5FF;
 }
 
 .announcements-header h1 {
@@ -30,7 +30,7 @@
 
 .announcements-subtitle {
   margin: 0;
-  color: #4b5563;
+  color: #CFCFCF;
   max-width: 680px;
 }
 
@@ -40,10 +40,11 @@
 }
 
 .announcement-card {
-  background: #ffffff;
-  border-radius: 16px;
+  background: #171717;
+  border: 1px solid #2C2C2C;
+  border-radius: 18px;
   padding: 20px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
 }
 
 .announcement-card__header {
@@ -57,17 +58,18 @@
 .announcement-card__header h3 {
   margin: 0;
   font-size: 1.1rem;
+  color: #ffffff;
 }
 
 .announcement-card__header span,
 .announcement-card__footer span {
-  color: #64748b;
+  color: #9A9A9A;
   font-size: 0.92rem;
 }
 
 .announcement-card p {
   margin: 0 0 12px;
-  color: #475569;
+  color: #CFCFCF;
   line-height: 1.6;
 }
 
@@ -77,15 +79,16 @@
 }
 
 .announcements-state {
-  background: #ffffff;
-  border-radius: 16px;
+  background: #171717;
+  border: 1px solid #2C2C2C;
+  border-radius: 18px;
   padding: 20px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-  color: #475569;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+  color: #CFCFCF;
 }
 
 .announcements-state-error {
-  color: #b91c1c;
+  color: #EF4444;
   font-weight: 600;
 }
 
