@@ -1,7 +1,7 @@
 .admin-dashboard-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #000000 0%, #111111 100%);
-  color: #ffffff;
+  background: #000000;
+  color: #E5E7EB;
 }
 
 .admin-dashboard__hero {
@@ -11,15 +11,24 @@
 .admin-dashboard__hero h1 {
   font-size: 2rem;
   margin: 6px 0 8px;
-  color: #ffffff;
+  color: #FFFFFF;
+}
+
+.admin-dashboard__hero .eyebrow {
+  margin: 0 0 6px 0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #18C8E8;
 }
 
 .admin-dashboard__state {
   padding: 16px 18px;
   border-radius: 16px;
-  background: #171717;
-  border: 1px solid #2C2C2C;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+  background: #1E1E1E;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 .admin-dashboard__state--error {
@@ -28,10 +37,10 @@
 
 .admin-profile-card,
 .admin-quick-action-card {
-  background: #171717;
-  border: 1px solid #2C2C2C;
-  border-radius: 20px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+  background: #1E1E1E;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 .admin-profile-card {
@@ -45,11 +54,11 @@
 .admin-profile-card__avatar {
   width: 90px;
   height: 90px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, #00E5FF 0%, #00C8E6 100%);
+  border-radius: 18px;
+  background: #18C8E8;
   display: grid;
   place-items: center;
-  color: #000000;
+  color: #111111;
   font-size: 1.6rem;
   font-weight: 800;
   overflow: hidden;
@@ -70,7 +79,7 @@
 
 .admin-profile-card__details h2 {
   margin: 0;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .admin-profile-card__details p {
@@ -90,7 +99,7 @@
 
 .admin-quick-action-card h3 {
   margin: 0 0 8px;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .admin-quick-action-card p {
@@ -109,3 +118,449 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================
+   ADMIN DASHBOARD - PAGE LAYOUT
+   Scoped layout rules for admin dashboard workspace
+   ========================================= */
+
+.admin-dashboard-page {
+  min-height: 100vh;
+  background: #000000; /* keep main black background */
+  color: #E5E7EB;
+}
+
+.admin-dashboard-page .admin-dashboard-content {
+  max-width: 1180px; /* reasonable centered width */
+  margin: 14px auto 48px auto;
+  padding: 18px;
+}
+
+/* =========================================
+   ADMIN DASHBOARD - HEADER
+   Controls hero / eyebrow / subtitle typography
+   ========================================= */
+
+.admin-dashboard__hero {
+  margin-bottom: 20px;
+}
+
+.admin-dashboard__hero .eyebrow {
+  color: #18C8E8; /* cyan accent */
+  font-weight: 800;
+}
+
+.admin-dashboard__hero h1 {
+  font-size: 1.9rem;
+  margin: 6px 0 8px;
+  color: #FFFFFF;
+  line-height: 1.15;
+}
+
+.admin-dashboard__hero .page-subtitle {
+  margin: 0;
+  color: #B0BEC5; /* secondary grey */
+  max-width: 780px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   ADMIN DASHBOARD - PROFILE CARD
+   Structured card with avatar, details and contact column
+   ========================================= */
+
+.admin-profile-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  align-items: center;
+  padding: 20px;
+  border-radius: 14px;
+  background: #1E1E1E;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+}
+
+.admin-profile-card__avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 14px;
+  background: #121212;
+  display: grid;
+  place-items: center;
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-weight: 800;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(24,200,232,0.16); /* subtle cyan border */
+}
+
+.admin-profile-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-profile-card__main {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.admin-profile-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-profile-card__details h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #FFFFFF;
+}
+
+.admin-profile-card__details p {
+  margin: 0;
+  color: #CFCFCF;
+}
+
+.admin-profile-card__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+  min-width: 190px;
+}
+
+.admin-profile-card__contact .contact-label {
+  color: #B0BEC5;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.admin-profile-card__contact .contact-value {
+  color: #FFFFFF;
+  margin: 0 0 6px 0;
+}
+
+/* =========================================
+   ADMIN DASHBOARD - ACTION CARDS
+   Three primary action cards with hover effects
+   ========================================= */
+
+.admin-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.admin-quick-action-card {
+  display: block;
+  padding: 18px;
+  border-radius: 12px;
+  background: #1E1E1E;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+}
+
+.admin-quick-action-card h3 {
+  margin: 0 0 8px 0;
+  color: #FFFFFF;
+}
+
+.admin-quick-action-card p {
+  margin: 0;
+  color: #CFCFCF;
+}
+
+.admin-quick-action-card::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: #18C8E8; /* cyan accent */
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.admin-quick-action-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(24,200,232,0.28);
+  box-shadow: 0 12px 30px rgba(24,200,232,0.06);
+}
+
+/* responsive adjustments */
+@media (max-width: 1000px) {
+  .admin-quick-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-profile-card__contact {
+    min-width: 150px;
+  }
+}
+
+@media (max-width: 720px) {
+  .admin-quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-profile-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .admin-profile-card__main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .admin-profile-card__contact {
+    text-align: left;
+    min-width: auto;
+  }
+}
+
+/* Lower area layout */
+.admin-dashboard-lower {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.admin-dashboard-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-dashboard-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.stat-row__label {
+  color: #B0BEC5;
+  min-width: 110px;
+  font-weight: 700;
+}
+
+.stat-row__bar {
+  flex: 1;
+  height: 10px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.stat-row__bar > div {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(24,200,232,0.95), rgba(24,200,232,0.7));
+}
+
+@media (max-width: 1000px) {
+  .admin-dashboard-lower {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+@media (max-width: 720px) {
+  .admin-dashboard-lower {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================
+   ADMIN DASHBOARD - OVERVIEW STATS
+   ========================================= */
+
+.admin-dashboard-overview {
+  margin-top: 8px;
+  margin-bottom: 18px;
+}
+
+.admin-dashboard-overview .section-eyebrow {
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #18C8E8;
+}
+
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 12px;
+}
+
+.admin-stat-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  background: #1E1E1E;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 12px;
+}
+
+.admin-stat-card .stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: rgba(24,200,232,0.08);
+  color: #18C8E8;
+  font-size: 1.1rem;
+}
+
+.admin-stat-card .stat-label {
+  margin: 0;
+  color: #B0BEC5;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.admin-stat-card .stat-value {
+  margin: 2px 0 0 0;
+  color: #FFFFFF;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+@media (max-width: 1000px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   ADMIN DASHBOARD - MANAGEMENT CARDS
+   ========================================= */
+
+.admin-quick-action-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-quick-action-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-quick-action-card .action-arrow {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  color: #B0BEC5;
+  font-weight: 700;
+}
+
+/* subtle leading icon using pseudo-element */
+.admin-quick-action-card::after {
+  content: "";
+  position: absolute;
+  top: -36px;
+  right: -36px;
+  width: 120px;
+  height: 120px;
+  background: rgba(24,200,232,0.03);
+  transform: rotate(25deg);
+}
+
+/* =========================================
+   ADMIN DASHBOARD - QUICK ACTIONS
+   ========================================= */
+
+.admin-dashboard-actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-action-btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(24,200,232,0.16);
+  background: transparent;
+  color: #18C8E8;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-action-btn.secondary {
+  color: #FFFFFF;
+  border-color: rgba(255,255,255,0.06);
+}
+
+/* =========================================
+   ADMIN DASHBOARD - RECENT ACTIVITY
+   ========================================= */
+
+.admin-activity-card {
+  padding: 12px 14px;
+  background: #1E1E1E;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 12px;
+}
+
+.admin-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-activity-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.admin-activity-item .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #18C8E8;
+  margin-top: 6px;
+}
+
+.admin-activity-item .activity-text {
+  color: #CFCFCF;
+}
+
+/* =========================================
+   ADMIN DASHBOARD - RESPONSIVE / TWEAKS
+   ========================================= */
+
+@media (max-width: 720px) {
+  .admin-dashboard-content {
+    padding: 12px;
+  }
+}
+
+

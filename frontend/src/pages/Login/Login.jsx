@@ -30,14 +30,15 @@ function Login() {
       });
       localStorage.setItem("token", data.token);
 
-      if (college) {
-        localStorage.setItem("selectedCollege", college);
-      } else if (data?.user?.college) {
-        localStorage.setItem("selectedCollege", data.user.college);
+      const userRole = data?.user?.role || "student";
+      const userCollege = data?.user?.college || college || "";
+
+      if (userCollege) {
+        localStorage.setItem("selectedCollege", userCollege);
       }
 
       setMessage("Login successful");
-      navigate("/dashboard");
+      navigate(userRole === "admin" ? "/admin/dashboard" : "/dashboard");
     } catch (error) {
       setMessage(error.response?.data?.message || "Login failed");
     }

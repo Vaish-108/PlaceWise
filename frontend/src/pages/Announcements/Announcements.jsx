@@ -37,10 +37,10 @@ setAnnouncements(data || []);
   };
 
   return (
-    <div className="announcements-page">
+    <div className="page-shell announcements-page">
       <Navbar />
 
-      <main className="student-dashboard-content">
+      <main className="page-content">
         <section className="announcements-header">
           <p className="announcements-eyebrow">Student Portal</p>
           <h1>Announcements</h1>

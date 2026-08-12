@@ -189,6 +189,7 @@ a {
   background: transparent;
   color: var(--primary);
   border: 1px solid var(--accent-border);
+
 }
 
 .btn-secondary:hover {
@@ -250,6 +251,23 @@ a {
 .profile-summary-copy {
   display: grid;
   gap: 18px;
+}
+
+.summary-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.summary-card {
+  width: 100%;
+  min-height: 104px;
+  padding: 18px 20px;
+  display: grid;
+  align-content: start;
+  box-sizing: border-box;
 }
 
 .profile-name {
@@ -541,21 +559,26 @@ a {
 }
 
 .quick-actions-grid {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  align-items: stretch;
 }
 
 .quick-action-card {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 18px;
+  gap: 16px;
   align-items: center;
-  padding: 24px;
+  padding: 20px 22px;
   border-radius: 26px;
   background: #f8fafc;
   color: var(--text-on-light);
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   min-height: 150px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .quick-action-card:hover {

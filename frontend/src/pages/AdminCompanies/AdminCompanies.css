@@ -1,8 +1,8 @@
 .admin-companies-page {
   min-height: 100vh;
   padding: 32px;
-  background: linear-gradient(180deg, #000000 0%, #111111 100%);
-  color: #ffffff;
+  background: #000000;
+  color: #E5E7EB;
 }
 
 .admin-companies-header {
@@ -18,13 +18,13 @@
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #00E5FF;
+  color: #18C8E8;
 }
 
 .admin-companies-header h1 {
   margin: 0 0 8px;
   font-size: 2rem;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .admin-companies-subtitle {
@@ -41,11 +41,11 @@
 
 .admin-companies-form-card,
 .admin-companies-list-card {
-  background: #171717;
-  border: 1px solid #2C2C2C;
+  background: #1E1E1E;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 18px;
   padding: 24px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 .admin-companies-form-card h2,
@@ -53,7 +53,7 @@
   margin-top: 0;
   margin-bottom: 16px;
   font-size: 1.25rem;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .admin-companies-form {
@@ -72,17 +72,17 @@
 
 .admin-companies-form input {
   padding: 10px 12px;
-  border: 1px solid #2C2C2C;
-  border-radius: 10px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 14px;
   font-size: 0.95rem;
   outline: none;
-  background: #111111;
-  color: #ffffff;
+  background: #FFFFFF;
+  color: #111111;
 }
 
 .admin-companies-form input:focus {
-  border-color: #00E5FF;
-  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
+  border-color: #18C8E8;
+  box-shadow: 0 0 0 3px rgba(24, 200, 232, 0.18);
 }
 
 .admin-companies-form button {
@@ -90,8 +90,8 @@
   border: none;
   border-radius: 999px;
   padding: 11px 14px;
-  background: linear-gradient(135deg, #00E5FF 0%, #00C8E6 100%);
-  color: #000000;
+  background: #18C8E8;
+  color: #111111;
   font-weight: 700;
   cursor: pointer;
 }
@@ -121,7 +121,7 @@
 }
 
 .admin-companies-list-header span {
-  color: #9A9A9A;
+  color: #A0A0A0;
   font-weight: 600;
 }
 
@@ -136,16 +136,16 @@
 }
 
 .admin-company-card {
-  border: 1px solid #2C2C2C;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 14px;
   padding: 16px;
-  background: #111111;
+  background: #364C5C;
 }
 
 .admin-company-card h3 {
   margin: 0 0 10px;
   font-size: 1.1rem;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .admin-company-card p {
@@ -168,3 +168,372 @@
     font-size: 1.6rem;
   }
 }
+
+
+/* ========================================
+   ADMIN QUERIES PAGE
+   Scoped styles for: AdminQueries (admin-queries-page)
+   These rules only apply when the page root includes `admin-queries-page`.
+   ======================================== */
+
+/* Page Container */
+.admin-queries-page .admin-dashboard-content {
+  max-width: 1160px; /* reasonable max width for dashboard */
+  margin: 12px auto 0 auto; /* center horizontally and keep spacing from navbar */
+  padding: 0 16px; /* small horizontal padding to avoid edge-to-edge */
+}
+
+/* Page Header spacing tweaks */
+.admin-queries-page .admin-companies-header {
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.admin-queries-page .admin-companies-eyebrow {
+  margin-bottom: 8px;
+}
+
+/* Queries Container */
+.admin-queries-page .admin-companies-content {
+  /* Left: main queries list, Right: optional form/update card */
+  grid-template-columns: 1.6fr 0.9fr;
+  gap: 20px;
+}
+
+.admin-queries-page .admin-companies-list-card,
+.admin-queries-page .admin-companies-form-card {
+  padding: 22px;
+  border-radius: 16px;
+}
+
+.admin-queries-page .admin-companies-list-card {
+  /* make the list card visually distinct and use full width */
+  background: #1E1E1E;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.admin-queries-page .admin-companies-list-header h2 {
+  margin: 0;
+}
+
+.admin-queries-page .admin-companies-list-header span {
+  color: #A0A0A0;
+  font-weight: 600;
+}
+
+/* Query Grid */
+.admin-queries-page .admin-companies-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Individual Query Card */
+.admin-queries-page .admin-company-card {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #364C5C; /* existing blue-grey/slate tone */
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* Ticket card layout */
+.admin-queries-page .admin-company-card .ticket-left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 260px;
+}
+
+.admin-queries-page .ticket-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.14);
+  display: grid;
+  place-items: center;
+  color: #FFFFFF;
+  font-weight: 800;
+}
+
+.admin-queries-page .ticket-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-queries-page .ticket-subject {
+  margin: 0 0 6px 0;
+  font-size: 1.05rem;
+  color: #FFFFFF;
+}
+
+.admin-queries-page .ticket-info {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-queries-page .ticket-label {
+  color: #B0BEC5;
+  font-weight: 700;
+}
+
+.admin-queries-page .ticket-value {
+  color: #FFFFFF;
+}
+
+.admin-queries-page .ticket-body {
+  flex: 1;
+}
+
+.admin-queries-page .ticket-message {
+  margin: 0 0 8px 0;
+  color: #CFCFCF;
+  line-height: 1.45;
+}
+
+.admin-queries-page .ticket-date {
+  margin: 0;
+  color: #9CA3AF;
+  font-size: 0.85rem;
+}
+}
+
+.admin-queries-page .admin-company-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.05rem;
+  color: #FFFFFF;
+}
+
+.admin-queries-page .admin-company-card p {
+  margin: 6px 0;
+  color: #CFCFCF;
+  line-height: 1.35;
+  font-size: 0.95rem;
+}
+
+.admin-queries-page .admin-company-card p strong {
+  color: #FFFFFF;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+/* Query Actions (buttons) */
+.admin-queries-page .admin-companies-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-queries-page .ticket-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-queries-page .admin-companies-actions button {
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+
+/* Primary (View / Update) */
+.admin-queries-page .admin-companies-actions .btn-primary {
+  background: #18C8E8; /* existing cyan */
+  color: #111111;
+  box-shadow: 0 6px 12px rgba(24,200,232,0.08);
+}
+
+.admin-queries-page .admin-companies-actions .btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+/* Danger (Delete) */
+.admin-queries-page .admin-companies-actions .btn-danger {
+  background: transparent;
+  color: #EF4444; /* existing red */
+  border: 1px solid rgba(239,68,68,0.14);
+}
+
+.admin-queries-page .admin-companies-actions .btn-danger:disabled {
+  opacity: 0.6;
+}
+
+/* Ticket count alignment */
+.admin-queries-page .admin-companies-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ========================================
+   ADMIN QUERIES - SUMMARY CARDS
+   ======================================== */
+
+.admin-queries-page .admin-queries-summary {
+  margin-bottom: 14px;
+}
+
+.admin-queries-page .admin-queries-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 12px;
+}
+
+.admin-queries-page .summary-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  background: #1E1E1E;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 10px;
+}
+
+.admin-queries-page .summary-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: rgba(24,200,232,0.06);
+  color: #18C8E8;
+  border-radius: 8px;
+}
+
+.admin-queries-page .summary-label {
+  margin: 0;
+  color: #B0BEC5;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.admin-queries-page .summary-value {
+  margin: 2px 0 0 0;
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 1.15rem;
+}
+
+/* Status badges */
+.admin-queries-page .status-badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: capitalize;
+}
+
+.admin-queries-page .status-open {
+  background: rgba(24,200,232,0.12);
+  color: #18C8E8;
+}
+
+.admin-queries-page .status-in-progress {
+  background: rgba(66,153,225,0.12);
+  color: #60A5FA;
+}
+
+.admin-queries-page .status-resolved {
+  background: rgba(34,197,94,0.12);
+  color: #22C55E;
+}
+
+@media (max-width: 1000px) {
+  .admin-queries-page .admin-queries-summary-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .admin-queries-page .admin-company-card {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .admin-queries-page .ticket-left {
+    min-width: auto;
+  }
+}
+
+/* ==========================
+   QUERIES PAGE LAYOUT OVERRIDES
+   Ensures stats row sits above queries and queries list uses full width
+   ==========================
+*/
+
+.admin-queries-page .admin-companies-content {
+  display: block; /* stack summary, list, and form vertically */
+}
+
+.admin-queries-page .admin-companies-list-card {
+  width: 100%;
+}
+
+/* Make ticket list use full width (one column) */
+.admin-queries-page .admin-companies-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* Reduce minimum left column width so content doesn't squeeze */
+.admin-queries-page .ticket-left {
+  min-width: 160px;
+}
+
+/* Ensure actions don't wrap; keep them to the right */
+.admin-queries-page .ticket-actions {
+  margin-left: 16px;
+  white-space: nowrap;
+}
+
+/* Ensure card content wraps and avoids overflow */
+.admin-queries-page .admin-company-card,
+.admin-queries-page .summary-card {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+
+@media (max-width: 520px) {
+  .admin-queries-page .admin-queries-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-queries-page .ticket-avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  .admin-queries-page .ticket-subject {
+    font-size: 1rem;
+  }
+}
+
+/* Responsive Layout */
+@media (max-width: 900px) {
+  .admin-queries-page .admin-companies-content {
+    grid-template-columns: 1fr; /* stack for smaller viewports */
+  }
+
+  .admin-queries-page .admin-companies-grid {
+    grid-template-columns: 1fr; /* single column cards */
+  }
+}
+
+/* Keep spacing compact on very small screens */
+@media (max-width: 480px) {
+  .admin-queries-page .admin-dashboard-content {
+    padding: 0 10px;
+  }
+  .admin-queries-page .admin-company-card {
+    padding: 12px;
+  }
+}
+

@@ -8,16 +8,16 @@
 }
 
 .admin-profile-panel {
-  background: #171717;
-  border: 1px solid #2C2C2C;
-  border-radius: 20px;
+  background: #1E1E1E;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
   padding: 24px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 .admin-profile-panel h3 {
   margin: 0 0 16px;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .admin-profile-photo-actions {
@@ -41,17 +41,17 @@
 }
 
 .admin-profile-form input {
-  border: 1px solid #2C2C2C;
-  border-radius: 12px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 14px;
   padding: 12px 14px;
   font: inherit;
-  background: #111111;
-  color: #ffffff;
+  background: #FFFFFF;
+  color: #111111;
 }
 
 .admin-profile-form input[readonly] {
-  background: #111111;
-  color: #9A9A9A;
+  background: #1E1E1E;
+  color: #A0A0A0;
 }
 
 .admin-dashboard__state--success {

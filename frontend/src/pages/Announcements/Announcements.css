@@ -1,7 +1,7 @@
 .announcements-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #000000 0%, #111111 100%);
-  color: #ffffff;
+  background: #0B0F14;
+  color: #E5E7EB;
 }
 
 .student-dashboard-content {
@@ -40,11 +40,11 @@
 }
 
 .announcement-card {
-  background: #171717;
-  border: 1px solid #2C2C2C;
+  background: #181818;
+  border: 1px solid #2A2A2A;
   border-radius: 18px;
   padding: 20px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.24);
 }
 
 .announcement-card__header {
@@ -58,18 +58,18 @@
 .announcement-card__header h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .announcement-card__header span,
 .announcement-card__footer span {
-  color: #9A9A9A;
+  color: #B0B0B0;
   font-size: 0.92rem;
 }
 
 .announcement-card p {
   margin: 0 0 12px;
-  color: #CFCFCF;
+  color: #E5E7EB;
   line-height: 1.6;
 }
 
@@ -79,12 +79,12 @@
 }
 
 .announcements-state {
-  background: #171717;
-  border: 1px solid #2C2C2C;
+  background: #151A22;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 18px;
   padding: 20px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
-  color: #CFCFCF;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.24);
+  color: #E5E7EB;
 }
 
 .announcements-state-error {

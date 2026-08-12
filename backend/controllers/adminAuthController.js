@@ -4,10 +4,19 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const Admin = require("../models/Admin");
+const Student = require("../models/Student");
 const College = require("../models/College");
 
 const getBackendUrl = () =>
   process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}`;
+
+const normalizeEmail = (value) => {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  return value.trim().toLowerCase();
+};
 
 const removeFileIfExists = async (filePath) => {
   if (!filePath) {
@@ -43,12 +52,13 @@ const registerAdmin = async (req, res) => {
       });
     }
 
-    // Check if admin already exists
-    const existingAdmin = await Admin.findOne({ email });
+    const normalizedEmail = normalizeEmail(email);
+    const existingAdmin = await Admin.findOne({ email: normalizedEmail });
+    const existingStudent = await Student.findOne({ email: normalizedEmail });
 
-    if (existingAdmin) {
-      return res.status(400).json({
-        message: "Admin already exists",
+    if (existingAdmin || existingStudent) {
+      return res.status(409).json({
+        message: "Email is already registered. Please login using this account or use a different email.",
       });
     }
 
@@ -72,7 +82,7 @@ const registerAdmin = async (req, res) => {
     // Create admin
     const newAdmin = await Admin.create({
       name,
-      email,
+      email: normalizedEmail,
       password: hashedPassword,
       phone: phone || "",
       college: collegeDoc.name || "",
@@ -115,8 +125,10 @@ const loginAdmin = async (req, res) => {
       });
     }
 
+    const normalizedEmail = normalizeEmail(email);
+
     // Find admin
-    const admin = await Admin.findOne({ email });
+    const admin = await Admin.findOne({ email: normalizedEmail });
 
     if (!admin) {
       return res.status(400).json({
@@ -142,6 +154,8 @@ const loginAdmin = async (req, res) => {
         userId: admin._id,
         role: "admin",
         collegeId: admin.collegeId,
+        college: admin.college,
+        email: admin.email,
       },
       process.env.JWT_SECRET,
       {

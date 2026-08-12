@@ -81,7 +81,7 @@ function AdminQueries() {
   };
 
   return (
-    <div className="admin-companies-page">
+    <div className="admin-companies-page admin-queries-page">
       <AdminNavbar />
 
       <main className="admin-dashboard-content">
@@ -94,6 +94,44 @@ function AdminQueries() {
         </div>
 
         <div className="admin-companies-content">
+
+          {/* Summary cards computed from tickets */}
+          <section className="admin-queries-summary">
+            <div className="admin-queries-summary-grid">
+              <div className="summary-card">
+                <div className="summary-icon">📝</div>
+                <div>
+                  <p className="summary-label">Total Tickets</p>
+                  <p className="summary-value">{tickets.length}</p>
+                </div>
+              </div>
+
+              <div className="summary-card">
+                <div className="summary-icon">🔵</div>
+                <div>
+                  <p className="summary-label">Open Tickets</p>
+                  <p className="summary-value">{tickets.filter(t => (t.status || "open") === "open").length}</p>
+                </div>
+              </div>
+
+              <div className="summary-card">
+                <div className="summary-icon">⏳</div>
+                <div>
+                  <p className="summary-label">In Progress</p>
+                  <p className="summary-value">{tickets.filter(t => (t.status || "open") === "in-progress").length}</p>
+                </div>
+              </div>
+
+              <div className="summary-card">
+                <div className="summary-icon">✅</div>
+                <div>
+                  <p className="summary-label">Resolved</p>
+                  <p className="summary-value">{tickets.filter(t => (t.status || "open") === "resolved").length}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <section className="admin-companies-list-card">
           <div className="admin-companies-list-header">
             <h2>College Queries</h2>
@@ -106,18 +144,37 @@ function AdminQueries() {
               <p className="admin-companies-status">No queries available for your college yet.</p>
             ) : (
               <div className="admin-companies-grid">
-                {tickets.map((ticket) => (
-                  <article key={ticket._id} className="admin-company-card">
-                    <h3>{ticket.subject}</h3>
-                    <p><strong>Student:</strong> {ticket.studentId?.name || "Unknown"}</p>
-                    <p><strong>Status:</strong> {ticket.status}</p>
-                    <p><strong>Message:</strong> {ticket.message}</p>
-                    <div className="admin-companies-actions">
-                      <button type="button" onClick={() => openTicket(ticket)}>View / Update</button>
-                      <button type="button" onClick={() => handleDelete(ticket._id)} disabled={deleting}>Delete</button>
-                    </div>
-                  </article>
-                ))}
+                {tickets.map((ticket) => {
+                  const status = ticket.status || "open";
+                  const badgeClass = `status-${status.replace(/\s+/g, "-")}`;
+                  const date = ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : null;
+
+                  return (
+                    <article key={ticket._id} className="admin-company-card">
+                      <div className="ticket-left">
+                        <div className="ticket-avatar">{ticket.studentId?.name ? ticket.studentId.name.split(" ").map(n=>n[0]).slice(0,2).join("") : "U"}</div>
+                        <div className="ticket-meta">
+                          <h3 className="ticket-subject">{ticket.subject}</h3>
+                          <div className="ticket-info">
+                            <span className="ticket-label">Student:</span>
+                            <span className="ticket-value">{ticket.studentId?.name || "Unknown"}</span>
+                            <span className={`status-badge ${badgeClass}`}>{status}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="ticket-body">
+                        <p className="ticket-message">{ticket.message}</p>
+                        {date && <p className="ticket-date">{date}</p>}
+                      </div>
+
+                      <div className="admin-companies-actions ticket-actions">
+                        <button type="button" className="btn-primary" onClick={() => openTicket(ticket)}>View / Update</button>
+                        <button type="button" className="btn-danger" onClick={() => handleDelete(ticket._id)} disabled={deleting}>Delete</button>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             )}
           </section>

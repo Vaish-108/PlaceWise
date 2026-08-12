@@ -35,7 +35,7 @@ function Register() {
       }
 
       const data = await registerUser(payload);
-      setMessage(data.message);
+      setMessage(data.message || "Registration successful");
       navigate(`/login${college ? `?college=${college}` : ""}`);
     } catch (error) {
       setMessage(error.response?.data?.message || "Registration failed");

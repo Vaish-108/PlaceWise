@@ -42,8 +42,10 @@ function AdminLogin() {
 
       localStorage.setItem("adminToken", token);
 
-      if (college) {
-        localStorage.setItem("selectedCollege", college);
+      const adminCollege = response?.data?.admin?.college || college || "";
+
+      if (adminCollege) {
+        localStorage.setItem("selectedCollege", adminCollege);
       }
 
       navigate("/admin/dashboard");

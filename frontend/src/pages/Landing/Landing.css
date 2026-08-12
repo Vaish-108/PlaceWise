@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #000000 0%, #111111 100%);
+  background: #000000;
   padding: 24px;
 }
 
@@ -13,14 +13,14 @@
 
 .landing-brand {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
 .landing-brand__eyebrow {
   display: inline-block;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #00E5FF;
+  color: #18C8E8;
   font-weight: 700;
   margin-bottom: 8px;
 }
@@ -32,7 +32,7 @@
 }
 
 .landing-subtitle {
-  color: #D1D5DB;
+  color: #CFCFCF;
   max-width: 680px;
   margin: 0 auto;
   line-height: 1.7;
@@ -49,24 +49,24 @@
   gap: 20px;
   width: min(100%, 560px);
   padding: 24px;
-  border-radius: 24px;
-  background: #171717;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
-  border: 1px solid #2C2C2C;
+  border-radius: 18px;
+  background: #1E1E1E;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   text-align: left;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .college-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 22px 50px rgba(37, 99, 235, 0.14);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.24);
 }
 
 .college-card__logo {
   width: 88px;
   height: 88px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #00E5FF 0%, #00C8E6 100%);
+  border-radius: 18px;
+  background: #18C8E8;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,7 +74,7 @@
 }
 
 .college-card__logo-text {
-  color: #000000 !important;
+  color: #111111 !important;
   font-weight: 800 !important;
   letter-spacing: 0.06em;
 }
@@ -91,7 +91,7 @@
 }
 
 .college-card__subtitle {
-  color: #D1D5DB;
+  color: #CFCFCF;
   line-height: 1.5;
 }
 
@@ -101,8 +101,8 @@
   margin-top: 4px;
   padding: 5px 10px;
   border-radius: 999px;
-  background: rgba(0, 229, 255, 0.12);
-  color: #00E5FF;
+  background: rgba(24, 200, 232, 0.14);
+  color: #18C8E8;
   font-weight: 700;
 }
 

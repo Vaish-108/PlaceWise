@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Student = require("../models/Student");
+const Admin = require("../models/Admin");
 const College = require("../models/College");
 
 const BACKLOG_STATUS_VALUES = ["no-backlog", "active-backlog", "dead-backlog"];
@@ -70,6 +71,13 @@ const isValidDate = (value) => {
 };
 const isValidBacklogStatus = (value) => !value || BACKLOG_STATUS_VALUES.includes(value);
 const isValidUrl = (value) => !value || URL_REGEX.test(value.trim());
+const normalizeEmail = (value) => {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  return value.trim().toLowerCase();
+};
 const sanitizeSkills = (skills) => {
   if (!Array.isArray(skills)) {
     return [];
@@ -96,11 +104,13 @@ const registerUser = async (req, res) => {
       });
     }
 
-    const existingUser = await Student.findOne({ email });
+    const normalizedEmail = normalizeEmail(email);
+    const existingStudent = await Student.findOne({ email: normalizedEmail });
+    const existingAdmin = await Admin.findOne({ email: normalizedEmail });
 
-    if (existingUser) {
-      return res.status(400).json({
-        message: "User already exists",
+    if (existingStudent || existingAdmin) {
+      return res.status(409).json({
+        message: "Email is already registered. Please login using this account or use a different email.",
       });
     }
 
@@ -122,7 +132,7 @@ const registerUser = async (req, res) => {
 
     const newUser = await Student.create({
       name,
-      email,
+      email: normalizedEmail,
       password: hashedPassword,
       college: collegeDoc.name || "",
       collegeId: collegeDoc._id,
@@ -145,8 +155,9 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    const normalizedEmail = normalizeEmail(email);
 
-    const user = await Student.findOne({ email });
+    const user = await Student.findOne({ email: normalizedEmail });
 
     if (!user) {
       return res.status(400).json({
@@ -170,6 +181,8 @@ const loginUser = async (req, res) => {
         userId: user._id,
         role: user.role,
         collegeId: user.collegeId,
+        college: user.college,
+        email: user.email,
       },
       process.env.JWT_SECRET,
       {
