@@ -108,6 +108,12 @@ const registerUser = async (req, res) => {
     const existingStudent = await Student.findOne({ email: normalizedEmail });
     const existingAdmin = await Admin.findOne({ email: normalizedEmail });
 
+    // Temporary debug logs for registration duplicate-check troubleshooting
+    console.log("REGISTER DEBUG - raw email:", email);
+    console.log("REGISTER DEBUG - normalized email:", normalizedEmail);
+    console.log("REGISTER DEBUG - existing student:", !!existingStudent);
+    console.log("REGISTER DEBUG - existing admin:", !!existingAdmin);
+
     if (existingStudent || existingAdmin) {
       return res.status(409).json({
         message: "Email is already registered. Please login using this account or use a different email.",
