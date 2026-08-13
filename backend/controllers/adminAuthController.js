@@ -35,78 +35,9 @@ const removeFileIfExists = async (filePath) => {
 // ===============================
 
 const registerAdmin = async (req, res) => {
-  try {
-    const {
-      name,
-      email,
-      password,
-      phone,
-      collegeCode,
-      designation,
-    } = req.body;
-
-    // Validate required fields
-    if (!name || !email || !password || !collegeCode) {
-      return res.status(400).json({
-        message: "Name, email, password, and collegeCode are required",
-      });
-    }
-
-    const normalizedEmail = normalizeEmail(email);
-    const existingAdmin = await Admin.findOne({ email: normalizedEmail });
-    const existingStudent = await Student.findOne({ email: normalizedEmail });
-
-    if (existingAdmin || existingStudent) {
-      return res.status(409).json({
-        message: "Email is already registered. Please login using this account or use a different email.",
-      });
-    }
-
-    const collegeDoc = await College.findOne({ code: collegeCode.toLowerCase().trim() });
-
-    if (!collegeDoc) {
-      return res.status(400).json({
-        message: "Invalid college code",
-      });
-    }
-
-    if (!collegeDoc.isActive) {
-      return res.status(403).json({
-        message: "College is inactive",
-      });
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create admin
-    const newAdmin = await Admin.create({
-      name,
-      email: normalizedEmail,
-      password: hashedPassword,
-      phone: phone || "",
-      college: collegeDoc.name || "",
-      collegeId: collegeDoc._id,
-      designation: designation || "Placement Administrator",
-      role: "admin",
-    });
-
-    // Remove password from response
-    const adminResponse = newAdmin.toObject();
-    delete adminResponse.password;
-
-    return res.status(201).json({
-      message: "Admin Registered Successfully",
-      admin: adminResponse,
-    });
-  } catch (error) {
-    console.error("ADMIN REGISTER ERROR:", error);
-
-    return res.status(500).json({
-      message: "Server Error",
-      error: error.message,
-    });
-  }
+  // Admin registration disabled for security reasons.
+  // Any attempt to register an admin via the public API will be rejected.
+  return res.status(403).json({ message: "Admin registration is disabled." });
 };
 
 

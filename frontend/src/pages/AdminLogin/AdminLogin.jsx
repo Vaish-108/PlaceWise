@@ -96,11 +96,7 @@ function AdminLogin() {
           <Link to={college ? `/?college=${college}` : "/"}>Back to Home</Link>
         </p>
 
-        <p className="auth-switch">
-          <Link to={college ? `/admin/register?college=${college}` : "/admin/register"}>
-            Don&apos;t have an admin account? Register
-          </Link>
-        </p>
+        {/* Admin registration disabled: link removed */}
       </div>
     </div>
   );

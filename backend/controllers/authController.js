@@ -144,9 +144,31 @@ const registerUser = async (req, res) => {
       collegeId: collegeDoc._id,
     });
 
+    // Generate JWT token (same payload as login)
+    const token = jwt.sign(
+      {
+        userId: newUser._id,
+        role: newUser.role,
+        collegeId: newUser.collegeId,
+        college: newUser.college,
+        email: newUser.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    // Remove password before sending user object
+    const userResponse = newUser.toObject ? newUser.toObject() : { ...newUser };
+    if (userResponse.password) {
+      delete userResponse.password;
+    }
+
     res.status(201).json({
       message: "User Registered Successfully",
-      user: newUser,
+      token,
+      user: userResponse,
     });
   } catch (error) {
     console.log(error);

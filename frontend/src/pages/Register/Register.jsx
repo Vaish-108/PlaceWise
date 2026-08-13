@@ -36,7 +36,23 @@ function Register() {
 
       const data = await registerUser(payload);
       setMessage(data.message || "Registration successful");
-      navigate(`/login${college ? `?college=${college}` : ""}`);
+
+      // If registration returned a token and user, sign the user in automatically
+      if (data?.token) {
+        localStorage.setItem("token", data.token);
+
+        const userRole = data?.user?.role || "student";
+        const userCollege = data?.user?.college || college || "";
+
+        if (userCollege) {
+          localStorage.setItem("selectedCollege", userCollege);
+        }
+
+        navigate(userRole === "admin" ? "/admin/dashboard" : "/dashboard");
+      } else {
+        // Fallback: navigate to login as before
+        navigate(`/login${college ? `?college=${college}` : ""}`);
+      }
     } catch (error) {
       setMessage(error.response?.data?.message || "Registration failed");
     }

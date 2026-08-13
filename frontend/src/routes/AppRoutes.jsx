@@ -8,7 +8,6 @@ import {
 import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import AdminLogin from "../pages/AdminLogin/AdminLogin";
-import AdminRegister from "../pages/AdminRegister/AdminRegister";
 
 import Landing from "../pages/Landing/Landing";
 import CollegeSelection from "../pages/CollegeSelection/CollegeSelection";
@@ -154,7 +153,7 @@ function AppRoutes() {
 
         <Route
           path="/admin/register"
-          element={<AdminRegister />}
+          element={<Navigate to="/admin/login" replace />}
         />
 
         {/* ========================= */}

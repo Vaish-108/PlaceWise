@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./StudentDashboard.css";
 import { Link, useNavigate } from "react-router-dom";
 import { getProfile } from "../../services/authService";
 import { getAISuggestions } from "../../services/aiService";
@@ -101,7 +102,7 @@ function StudentDashboard() {
     <div className="page-shell workspace-shell">
       <Navbar />
 
-      <main className="page-content workspace-page">
+      <main className="page-content workspace-page student-dashboard-page">
         {loading && <LoadingSpinner label="Loading workspace details..." />}
         {error && <div className="alert alert-error">{error}</div>}
 
@@ -145,29 +146,36 @@ function StudentDashboard() {
                         <a
                           href={user?.linkedin || "/profile"}
                           target={user?.linkedin ? "_blank" : undefined}
-                          rel={user?.linkedin ? "noreferrer" : undefined}
+                          rel={user?.linkedin ? "noopener noreferrer" : undefined}
                           className="profile-link-icon"
                           aria-label="LinkedIn"
                         >
-                          in
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                            <rect x="2" y="2" width="20" height="20" rx="2" fill="currentColor" opacity="0" />
+                            <path d="M6.94 8.94H4.5V19.5h2.44V8.94zM5.72 7.5c-.78 0-1.26-.56-1.26-1.26 0-.72.5-1.26 1.29-1.26.79 0 1.26.54 1.26 1.26 0 .7-.47 1.26-1.29 1.26zM19.5 19.5h-2.44v-5.04c0-1.2-.43-2.02-1.5-2.02-.82 0-1.31.55-1.52 1.08-.08.2-.1.48-.1.76V19.5H11.5s.03-8.98 0-9.96h2.44v1.41c.32-.5.9-1.22 2.2-1.22 1.6 0 2.8 1.04 2.8 3.27V19.5z" fill="currentColor" />
+                          </svg>
                         </a>
                         <a
                           href={user?.github || "/profile"}
                           target={user?.github ? "_blank" : undefined}
-                          rel={user?.github ? "noreferrer" : undefined}
+                          rel={user?.github ? "noopener noreferrer" : undefined}
                           className="profile-link-icon"
                           aria-label="GitHub"
                         >
-                          GH
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                            <path d="M12 .5C5.73.5.75 5.48.75 11.75c0 4.95 3.21 9.15 7.66 10.63.56.1.76-.24.76-.54 0-.27-.01-1-.02-1.97-3.12.68-3.78-1.5-3.78-1.5-.51-1.3-1.24-1.65-1.24-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .17 1.54.98 1.54.98.95 1.63 2.5 1.16 3.11.89.1-.7.39-1.16.71-1.43-2.49-.28-5.11-1.25-5.11-5.55 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.42.11-2.96 0 0 .95-.31 3.12 1.16a10.8 10.8 0 0 1 2.84-.38c.96 0 1.93.13 2.84.38 2.17-1.47 3.12-1.16 3.12-1.16.61 1.54.23 2.68.11 2.96.72.79 1.16 1.8 1.16 3.03 0 4.31-2.63 5.27-5.13 5.55.4.35.76 1.03.76 2.08 0 1.5-.01 2.71-.01 3.08 0 .3.2.65.77.54 4.45-1.48 7.66-5.68 7.66-10.63C23.25 5.48 18.27.5 12 .5z" fill="currentColor" />
+                          </svg>
                         </a>
                         <a
                           href={user?.leetcode || "/profile"}
                           target={user?.leetcode ? "_blank" : undefined}
-                          rel={user?.leetcode ? "noreferrer" : undefined}
+                          rel={user?.leetcode ? "noopener noreferrer" : undefined}
                           className="profile-link-icon"
                           aria-label="LeetCode"
                         >
-                          LC
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                            <path d="M12 2C6.48 2 2 6.48 2 12c0 5.52 4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm3.5 8.5c0 .83-.67 1.5-1.5 1.5H13v1.3c0 .5-.54.8-.96.55-1.24-.66-2.85-1.62-3.9-2.36-.4-.3-.45-.86-.1-1.23.34-.36.92-.39 1.31-.08 1.1.82 2.7 1.8 3.97 2.47V11h1.02c1.93 0 3.41-1.8 2.79-3.59-.28-.73-1.07-1.26-1.88-1.26H14v2.88h1.5c.83 0 1.5.67 1.5 1.5z" fill="currentColor" />
+                          </svg>
                         </a>
                       </div>
                     </div>
