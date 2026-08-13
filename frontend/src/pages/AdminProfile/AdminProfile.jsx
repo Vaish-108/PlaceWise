@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../apiConfig";
 import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 import "./AdminProfile.css";
 
@@ -38,7 +39,7 @@ function AdminProfile() {
       }
 
       try {
-        const response = await axios.get("http://localhost:5000/api/admin/profile", {
+        const response = await axios.get(`${API_URL}/api/admin/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -79,7 +80,7 @@ function AdminProfile() {
     try {
       setSaving(true);
       const response = await axios.put(
-        "http://localhost:5000/api/admin/profile",
+        `${API_URL}/api/admin/profile`,
         {
           name: formData.name,
           phone: formData.phone,
@@ -122,7 +123,7 @@ function AdminProfile() {
       formData.append("photo", photoFile);
 
       const response = await axios.post(
-        "http://localhost:5000/api/admin/profile/photo",
+        `${API_URL}/api/admin/profile/photo`,
         formData,
         {
           headers: {

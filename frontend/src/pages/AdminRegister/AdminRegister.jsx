@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../../apiConfig";
 import { getCollegeDisplayName } from "../../utils/collegeUtils";
 import "./AdminRegister.css";
 
@@ -41,7 +42,7 @@ function AdminRegister() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/admin/register", {
+      const response = await axios.post(`${API_URL}/api/admin/register`, {
         name: name.trim(),
         email: email.trim(),
         password,

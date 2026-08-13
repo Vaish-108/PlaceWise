@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/tickets";
+import { API_URL } from "../apiConfig";
 
 
 // Student token only
@@ -19,7 +18,7 @@ const adminAuthHeaders = () => ({
 export const createTicket = async (ticketData) => {
 
   const response = await axios.post(
-    API_URL,
+    `${API_URL}/api/tickets`,
     ticketData,
     {
       headers: studentAuthHeaders(),
@@ -34,7 +33,7 @@ export const createTicket = async (ticketData) => {
 export const getMyTickets = async () => {
 
   const response = await axios.get(
-    API_URL,
+    `${API_URL}/api/tickets`,
     {
       headers: studentAuthHeaders(),
     }
@@ -48,7 +47,7 @@ export const getMyTickets = async () => {
 export const getAllTickets = async () => {
 
   const response = await axios.get(
-    `${API_URL}/all`,
+    `${API_URL}/api/tickets/all`,
     {
       headers: adminAuthHeaders(),
     }
@@ -62,7 +61,7 @@ export const getAllTickets = async () => {
 export const updateTicket = async (ticketId, updateData) => {
 
   const response = await axios.put(
-    `${API_URL}/${ticketId}`,
+    `${API_URL}/api/tickets/${ticketId}`,
     updateData,
     {
       headers: adminAuthHeaders(),
@@ -82,7 +81,7 @@ export const deleteTicket = async (ticketId) => {
 
 
   const response = await axios.delete(
-    `${API_URL}/${ticketId}`,
+    `${API_URL}/api/tickets/${ticketId}`,
     {
       headers:{
         Authorization:`Bearer ${token}`,

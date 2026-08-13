@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/resume";
+import { API_URL } from "../apiConfig";
 
 // ==========================================
 // GET LATEST RESUME
@@ -12,7 +11,7 @@ export const getLatestResume = async (token) => {
   }
 
   const response = await axios.get(
-    `${API_URL}/latest`,
+    `${API_URL}/api/resume/latest`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,7 +27,7 @@ export const getExtractedResumeSkills = async (token) => {
     throw new Error("Authentication token is missing.");
   }
 
-  const response = await axios.get(`${API_URL}/extracted-skills`, {
+  const response = await axios.get(`${API_URL}/api/resume/extracted-skills`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -55,7 +54,7 @@ export const uploadResume = async (file, token) => {
   formData.append("resume", file);
 
   const response = await axios.post(
-    `${API_URL}/upload`,
+    `${API_URL}/api/resume/upload`,
     formData,
     {
       headers: {

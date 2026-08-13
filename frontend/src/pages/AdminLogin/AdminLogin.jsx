@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../../apiConfig";
 import { getCollegeDisplayName } from "../../utils/collegeUtils";
 import "./AdminLogin.css";
 
@@ -28,7 +29,7 @@ function AdminLogin() {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/admin/login", {
+      const response = await axios.post(`${API_URL}/api/admin/login`, {
         email: formData.email,
         password: formData.password,
         collegeCode: college || "",

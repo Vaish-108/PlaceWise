@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../apiConfig";
 import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 import "./AdminCompanies.css";
 
@@ -24,7 +25,7 @@ function AdminCompanies() {
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get("http://localhost:5000/api/companies", {
+      const response = await axios.get(`${API_URL}/api/companies`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -90,7 +91,7 @@ function AdminCompanies() {
     try {
       setSubmitting(true);
       setError("");
-      await axios.post("http://localhost:5000/api/companies", payload, {
+      await axios.post(`${API_URL}/api/companies`, payload, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
           "Content-Type": "application/json",

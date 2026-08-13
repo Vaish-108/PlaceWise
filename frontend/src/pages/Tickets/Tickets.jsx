@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "../../apiConfig";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -55,7 +56,7 @@ function Tickets() {
     }
 
     if (localStorage.getItem("adminToken")) {
-      const response = await axios.get("http://localhost:5000/api/admin/profile", {
+      const response = await axios.get(`${API_URL}/api/admin/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -64,7 +65,7 @@ function Tickets() {
       return response.data;
     }
 
-    const response = await axios.get("http://localhost:5000/api/auth/profile", {
+    const response = await axios.get(`${API_URL}/api/auth/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

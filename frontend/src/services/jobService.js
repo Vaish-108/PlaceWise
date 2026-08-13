@@ -1,11 +1,10 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/jobs";
+import { API_URL } from "../apiConfig";
 
 export const getJobs = async () => {
   const token = localStorage.getItem("token");
 
-  const response = await axios.get(API_URL, {
+  const response = await axios.get(`${API_URL}/api/jobs`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

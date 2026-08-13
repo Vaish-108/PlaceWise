@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../apiConfig";
 import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 import "../AdminCompanies/AdminCompanies.css";
 
@@ -25,7 +26,7 @@ function AdminQueries() {
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get("http://localhost:5000/api/tickets/all", {
+      const response = await axios.get(`${API_URL}/api/tickets/all`, {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
       setTickets(response.data || []);
@@ -53,7 +54,7 @@ function AdminQueries() {
     try {
       setSaving(true);
       await axios.put(
-        `http://localhost:5000/api/tickets/${selectedTicket._id}`,
+        `${API_URL}/api/tickets/${selectedTicket._id}`,
         { status, adminResponse: response },
         { headers: { Authorization: `Bearer ${adminToken}` } }
       );
@@ -69,7 +70,7 @@ function AdminQueries() {
   const handleDelete = async (ticketId) => {
     try {
       setDeleting(true);
-      await axios.delete(`http://localhost:5000/api/tickets/${ticketId}`, {
+      await axios.delete(`${API_URL}/api/tickets/${ticketId}`, {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
       fetchTickets();

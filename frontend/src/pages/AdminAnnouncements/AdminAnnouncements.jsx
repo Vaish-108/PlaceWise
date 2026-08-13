@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../apiConfig";
 import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 import "./AdminAnnouncements.css";
 
@@ -20,7 +21,7 @@ function AdminAnnouncements() {
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get("http://localhost:5000/api/announcements");
+      const response = await axios.get(`${API_URL}/api/announcements`);
       setAnnouncements(response.data || []);
     } catch (err) {
       setError("Unable to load announcements right now.");
@@ -51,7 +52,7 @@ function AdminAnnouncements() {
       setSubmitting(true);
       setError("");
       await axios.post(
-        "http://localhost:5000/api/announcements",
+        `${API_URL}/api/announcements`,
         {
           title: formData.title.trim(),
           message: formData.message.trim(),

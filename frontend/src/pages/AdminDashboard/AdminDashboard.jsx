@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../../apiConfig";
 import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
 import "./AdminDashboard.css";
 
@@ -28,7 +29,7 @@ function AdminDashboard() {
 
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/admin/profile",
+          `${API_URL}/api/admin/profile`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -57,10 +58,10 @@ function AdminDashboard() {
         const headers = { headers: { Authorization: `Bearer ${token}` } };
 
         const [companiesRes, announcementsRes, ticketsRes, jobsRes] = await Promise.allSettled([
-          axios.get("http://localhost:5000/api/companies", headers),
-          axios.get("http://localhost:5000/api/announcements", headers),
-          axios.get("http://localhost:5000/api/tickets/all", headers),
-          axios.get("http://localhost:5000/api/jobs", headers),
+          axios.get(`${API_URL}/api/companies`, headers),
+          axios.get(`${API_URL}/api/announcements`, headers),
+          axios.get(`${API_URL}/api/tickets/all`, headers),
+          axios.get(`${API_URL}/api/jobs`, headers),
         ]);
 
         const companies = companiesRes.status === "fulfilled" ? (companiesRes.value.data || []).length : null;

@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_URL } from "../apiConfig";
 
-const API_URL = "http://localhost:5000/api/auth";
+const BASE = `${API_URL}/api/auth`;
 
 const normalizeAuthPayload = (userData = {}) => {
   const collegeCode = userData.collegeCode ?? userData.college ?? "";
@@ -13,7 +14,7 @@ const normalizeAuthPayload = (userData = {}) => {
 
 export const registerUser = async (userData) => {
   const response = await axios.post(
-    `${API_URL}/register`,
+    `${BASE}/register`,
     normalizeAuthPayload(userData)
   );
 
@@ -22,7 +23,7 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (userData) => {
   const response = await axios.post(
-    `${API_URL}/login`,
+    `${BASE}/login`,
     normalizeAuthPayload(userData)
   );
 
@@ -31,7 +32,7 @@ export const loginUser = async (userData) => {
 
 export const getProfile = async (token) => {
   const response = await axios.get(
-    `${API_URL}/profile`,
+    `${BASE}/profile`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -47,7 +48,7 @@ export const updateProfile = async (
   token
 ) => {
   const response = await axios.put(
-    `${API_URL}/profile`,
+    `${BASE}/profile`,
     profileData,
     {
       headers: {
@@ -71,7 +72,7 @@ export const uploadProfilePhoto = async (file, token) => {
   const formData = new FormData();
   formData.append("photo", file);
 
-  const response = await axios.post(`${API_URL}/profile/photo`, formData, {
+  const response = await axios.post(`${BASE}/profile/photo`, formData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

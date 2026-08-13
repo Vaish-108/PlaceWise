@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../apiConfig";
 import "../AdminCompanies/AdminCompanies.css";
 
 function AdminJobs() {
@@ -32,10 +33,10 @@ function AdminJobs() {
       setLoading(true);
       setError("");
       const [companiesResponse, jobsResponse] = await Promise.all([
-        axios.get("http://localhost:5000/api/companies", {
+        axios.get(`${API_URL}/api/companies`, {
           headers: { Authorization: `Bearer ${adminToken}` },
         }),
-        axios.get("http://localhost:5000/api/jobs", {
+        axios.get(`${API_URL}/api/jobs`, {
           headers: { Authorization: `Bearer ${adminToken}` },
         }),
       ]);
@@ -87,7 +88,7 @@ function AdminJobs() {
       setSubmitting(true);
       setError("");
       await axios.post(
-        "http://localhost:5000/api/jobs",
+        `${API_URL}/api/jobs`,
         {
           company: formData.company,
           title: formData.title.trim(),
