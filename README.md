@@ -1,167 +1,289 @@
-# PlaceWise — AI-Powered Placement Portal
+# PlaceWise — AI-Powered College Placement Portal
 
-PlaceWise is a full-stack placement management platform that helps students evaluate job readiness, analyze resumes, receive AI-driven improvement suggestions, and manage support tickets through an integrated help desk.
+> A full-stack AI-powered placement management platform designed to help students manage and prepare for their college placement journey.
 
-## Project Overview
+## 🚀 Live Demo
 
-Students can register, maintain profiles, upload resumes, explore companies and jobs, receive AI match scores, and view personalized placement readiness insights. Admins can manage support tickets through dedicated backend APIs.
+[Open PlaceWise Live Demo](https://placewise-1.onrender.com)
 
-## Features
+## 📌 About the Project
 
-- User registration and JWT authentication
-- Student profile management (CGPA, branch, skills)
-- Company and job listings
-- Resume upload with PDF text extraction and skill detection
-- AI match score engine (profile + resume vs job requirements)
-- AI placement readiness dashboard with strengths, weaknesses, and priority actions
-- Admin help desk ticket system
-- Responsive React frontend with protected routes
+PlaceWise is an AI-powered college placement portal that brings important placement activities into one platform.
 
-## Tech Stack
+The system provides two separate portals:
 
-| Layer | Technologies |
-|-------|--------------|
-| Frontend | React, Vite, React Router, Axios |
-| Backend | Node.js, Express, Mongoose |
-| Database | MongoDB Atlas |
-| Auth | JWT, bcryptjs |
-| File Upload | Multer |
-| PDF Parsing | pdf-parse |
+- Student Portal — for managing profiles, resumes, placement preparation, companies, jobs, AI guidance, and support.
+- Admin Portal — for managing students, companies, jobs, announcements, queries, and support tickets.
 
-## Installation
+The platform also integrates AI-based features to provide personalized career and placement guidance.
 
-### Prerequisites
+## ✨ Key Features
 
-- Node.js 20+
-- MongoDB Atlas account
-- npm
+### Student Portal
 
-### Backend Setup
+- Student registration and login
+- JWT-based authentication
+- Student profile management
+- Resume upload and management
+- Resume analysis
+- Skill recommendations
+- Company and job exploration
+- AI-based company matching
+- Placement readiness analysis
+- Personalized placement recommendations
+- AI Mentor
+- Interview preparation
+- DSA preparation guidance
+- Student support tickets
+
+### Admin Portal
+
+- Admin authentication
+- Student management
+- Company management
+- Job management
+- Announcements management
+- Student query management
+- Support ticket management
+- Admin profile management
+
+### AI Features
+
+- AI-powered resume guidance
+- Placement readiness analysis
+- Interview preparation
+- Skill recommendations
+- Company matching
+- Career guidance
+- DSA preparation guidance
+- Interactive AI Mentor
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React.js
+- Vite
+- React Router
+- Axios
+- CSS
+
+### Backend
+- Node.js
+- Express.js
+- JWT Authentication
+- bcrypt
+- Multer
+
+### Database
+- MongoDB Atlas
+- Mongoose
+
+### AI
+- Groq API / LLM integration
+
+### Deployment and Tools
+- Render
+- Git
+- GitHub
+
+## 🏗️ System Architecture
+
+```text
+                    PlaceWise
+                       |
+          +------------+------------+
+          |                         |
+          v                         v
+   Student Portal             Admin Portal
+          |                         |
+          +------------+------------+
+                       |
+                       v
+                Express REST APIs
+                       |
+          +------------+------------+
+          |                         |
+          v                         v
+     MongoDB Atlas              AI Services
+````
+
+## 🔐 Authentication
+
+PlaceWise uses JWT-based authentication to secure protected routes and user-specific resources.
+
+```text
+User Login
+    |
+    v
+Backend verifies credentials
+    |
+    v
+Password verified using bcrypt
+    |
+    v
+JWT token generated
+    |
+    v
+Token sent with protected API requests
+    |
+    v
+Backend verifies token
+    |
+    v
+Authorized resource returned
+```
+
+## 📁 Project Structure
+
+```text
+PlaceWise/
+|
+├── backend/
+|   ├── controllers/
+|   ├── models/
+|   ├── routes/
+|   ├── services/
+|   ├── middleware/
+|   └── server.js
+|
+├── frontend/
+|   ├── src/
+|   |   ├── components/
+|   |   ├── pages/
+|   |   ├── services/
+|   |   └── ...
+|   └── package.json
+|
+├── .gitignore
+├── package.json
+└── README.md
+```
+
+## ⚙️ Run Locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Vaish-108/PlaceWise.git
+cd PlaceWise
+```
+
+### 2. Install backend dependencies
 
 ```bash
 cd backend
 npm install
 ```
 
-Create `backend/.env`:
+### 3. Create backend environment variables
+
+Create a `.env` file inside the backend folder.
 
 ```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
+JWT_SECRET=your_jwt_secret
+GROQ_API_KEY=your_groq_api_key
 ```
 
-Start backend:
+Never upload your actual database connection string, JWT secret, or API key to GitHub.
+
+### 4. Start the backend
 
 ```bash
-npm run dev
+npm start
 ```
 
-### Frontend Setup
+### 5. Install frontend dependencies
+
+Open another terminal.
 
 ```bash
 cd frontend
 npm install
+```
+
+### 6. Configure the frontend
+
+Create the frontend environment file with:
+
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+### 7. Start the frontend
+
+```bash
 npm run dev
 ```
 
-Frontend runs at `http://localhost:5173`  
-Backend runs at `http://localhost:5000`
+## 🌐 Deployment
 
-## Screenshots
+PlaceWise is deployed using Render.
 
-> Add screenshots here after deployment:
->
-> - Login Page
-> - Student Dashboard
-> - AI Dashboard
-> - Jobs Page
-> - Tickets Page
+### Production Frontend
 
-## API Summary
+[https://placewise-1.onrender.com](https://placewise-1.onrender.com)
 
-### Auth APIs
+### Production Backend
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/auth/register` | No | Register student |
-| POST | `/api/auth/login` | No | Login and receive JWT |
-| GET | `/api/auth/profile` | JWT | Get profile |
-| PUT | `/api/auth/profile` | JWT | Update profile |
+[https://placewise-avuk.onrender.com](https://placewise-avuk.onrender.com)
 
-### Company APIs
+### Database
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/companies` | No | Create company |
-| GET | `/api/companies` | No | List companies |
+MongoDB Atlas
 
-### Job APIs
+The frontend communicates with the deployed backend through the configured API URL.
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/jobs` | No | Create job |
-| GET | `/api/jobs` | No | List jobs |
+## 🔄 Deployment Workflow
 
-### Resume APIs
+The project is connected to GitHub and Render.
 
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/resume/upload` | JWT | Upload and analyze PDF resume |
+After making and testing changes locally:
 
-### Matching APIs
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| GET | `/api/matching/:companyId` | JWT | Match score vs company |
-| GET | `/api/matching/job/:jobId` | JWT | Match score vs job |
-
-### AI APIs
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| GET | `/api/ai/suggestions` | JWT | Placement readiness and improvement suggestions |
-
-### Ticket APIs
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/tickets` | JWT | Create ticket |
-| GET | `/api/tickets` | JWT | Get own tickets |
-| GET | `/api/tickets/all` | JWT (admin) | Get all tickets |
-| PUT | `/api/tickets/:id` | JWT (admin) | Update ticket status/response |
-
-## Project Structure
-
-```
-PlaceWise/
-├── backend/
-│   ├── config/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   └── server.js
-├── frontend/
-│   └── src/
-│       ├── components/
-│       ├── pages/
-│       ├── routes/
-│       ├── services/
-│       └── styles/
-└── README.md
+```bash
+git add .
+git commit -m "Describe your changes"
+git push origin master
 ```
 
-## Future Scope
+Render automatically detects changes pushed to the connected GitHub branch and deploys the updated application.
 
-- LLM-powered resume and suggestion generation
-- Email notifications for ticket updates
-- Role-based admin dashboard UI
-- Deployment to cloud (Render/Vercel + MongoDB Atlas)
-- Match score visualization on job cards
-- Interview preparation module
+The live demo URL remains the same after updates.
 
-## Author
+## 🔒 Environment Variables
 
-PlaceWise — Final Year / Portfolio Project
+The application uses environment variables for configuration and sensitive credentials.
+
+```text
+MONGO_URI
+PORT
+JWT_SECRET
+GROQ_API_KEY
+VITE_API_URL
+```
+
+Actual secret values should never be committed to GitHub.
+
+## 🔮 Future Improvements
+
+* Multi-college support
+* Advanced placement analytics
+* More personalized AI recommendations
+* Automated interview evaluation
+* Advanced admin dashboards
+* Improved notification system
+* Detailed placement statistics
+
+## 👩‍💻 Developer
+
+Vaishali Bhardwaj
+
+B.Tech — Computer Science & Engineering (AI)
+
+---
+
+⭐ If you find PlaceWise interesting, consider giving the repository a star.
+
+````
+
