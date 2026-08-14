@@ -1,35 +1,24 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { API_URL } from "../../apiConfig";
+import { useEffect, useMemo, useState } from "react";
 import AdminNavbar from "../../components/AdminNavbar/AdminNavbar";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { getAllTickets, updateTicket } from "../../services/ticketService";
 import "../AdminCompanies/AdminCompanies.css";
 
 function AdminQueries() {
   const [tickets, setTickets] = useState([]);
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [expandedTicketId, setExpandedTicketId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedTicket, setSelectedTicket] = useState(null);
-  const [status, setStatus] = useState("open");
   const [response, setResponse] = useState("");
   const [saving, setSaving] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-
-  const adminToken = localStorage.getItem("adminToken");
 
   const fetchTickets = async () => {
-    if (!adminToken) {
-      setError("Please log in as an admin.");
-      setLoading(false);
-      return;
-    }
-
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get(`${API_URL}/api/tickets/all`, {
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
-      setTickets(response.data || []);
+      const data = await getAllTickets();
+      setTickets(data || []);
     } catch (err) {
       setError(err.response?.data?.message || "Unable to load queries.");
     } finally {
@@ -41,43 +30,65 @@ function AdminQueries() {
     fetchTickets();
   }, []);
 
-  const openTicket = (ticket) => {
-    setSelectedTicket(ticket);
-    setStatus(ticket.status || "open");
-    setResponse(ticket.adminResponse || "");
-  };
+  const unreadCount = useMemo(
+    () => tickets.filter((ticket) => !ticket.adminRead).length,
+    [tickets]
+  );
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    if (!selectedTicket) return;
+  const openTicket = async (ticket) => {
+    const isOpening = expandedTicketId !== ticket._id;
+    setExpandedTicketId(isOpening ? ticket._id : null);
+    setSelectedTicket(isOpening ? ticket : null);
+    setResponse(isOpening ? ticket.adminResponse || "" : "");
 
-    try {
-      setSaving(true);
-      await axios.put(
-        `${API_URL}/api/tickets/${selectedTicket._id}`,
-        { status, adminResponse: response },
-        { headers: { Authorization: `Bearer ${adminToken}` } }
-      );
-      setSelectedTicket(null);
-      fetchTickets();
-    } catch (err) {
-      setError(err.response?.data?.message || "Unable to update query.");
-    } finally {
-      setSaving(false);
+    if (isOpening && !ticket.adminRead) {
+      try {
+        const responseData = await updateTicket(ticket._id, { adminRead: true });
+        const updated = responseData?.ticket || { ...ticket, adminRead: true };
+        setTickets((prev) => prev.map((item) => (item._id === ticket._id ? updated : item)));
+        setSelectedTicket(updated);
+      } catch (err) {
+        console.error("Failed to mark query as read:", err);
+      }
     }
   };
 
-  const handleDelete = async (ticketId) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!selectedTicket) {
+      return;
+    }
+
+    const trimmedResponse = response.trim();
+    if (!trimmedResponse) {
+      setError("Please write a response before sending.");
+      return;
+    }
+
     try {
-      setDeleting(true);
-      await axios.delete(`${API_URL}/api/tickets/${ticketId}`, {
-        headers: { Authorization: `Bearer ${adminToken}` },
+      setSaving(true);
+      setError("");
+      const updatedTicket = await updateTicket(selectedTicket._id, {
+        adminResponse: trimmedResponse,
+        studentRead: false,
+        adminRead: true,
       });
-      fetchTickets();
+
+      const nextTicket = updatedTicket?.ticket || {
+        ...selectedTicket,
+        adminResponse: trimmedResponse,
+        studentRead: false,
+        adminRead: true,
+      };
+
+      setSelectedTicket(nextTicket);
+      setTickets((prev) => prev.map((ticket) => (ticket._id === nextTicket._id ? nextTicket : ticket)));
+      setResponse("");
     } catch (err) {
-      setError(err.response?.data?.message || "Unable to delete query.");
+      setError(err.response?.data?.message || "Unable to send response.");
     } finally {
-      setDeleting(false);
+      setSaving(false);
     }
   };
 
@@ -89,120 +100,129 @@ function AdminQueries() {
         <div className="admin-companies-header">
           <div>
             <p className="admin-companies-eyebrow">Admin Panel</p>
-            <h1>Queries & Tickets</h1>
-            <p className="admin-companies-subtitle">Review college queries, update status, and respond to student concerns.</p>
+            <h1>Student Queries</h1>
+            <p className="admin-companies-subtitle">Read incoming student questions and reply directly.</p>
           </div>
         </div>
 
-        <div className="admin-companies-content">
+        {error && <div className="alert alert-error">{error}</div>}
 
-          {/* Summary cards computed from tickets */}
-          <section className="admin-queries-summary">
-            <div className="admin-queries-summary-grid">
-              <div className="summary-card">
-                <div className="summary-icon">📝</div>
-                <div>
-                  <p className="summary-label">Total Tickets</p>
-                  <p className="summary-value">{tickets.length}</p>
-                </div>
-              </div>
-
-              <div className="summary-card">
-                <div className="summary-icon">🔵</div>
-                <div>
-                  <p className="summary-label">Open Tickets</p>
-                  <p className="summary-value">{tickets.filter(t => (t.status || "open") === "open").length}</p>
-                </div>
-              </div>
-
-              <div className="summary-card">
-                <div className="summary-icon">⏳</div>
-                <div>
-                  <p className="summary-label">In Progress</p>
-                  <p className="summary-value">{tickets.filter(t => (t.status || "open") === "in-progress").length}</p>
-                </div>
-              </div>
-
-              <div className="summary-card">
-                <div className="summary-icon">✅</div>
-                <div>
-                  <p className="summary-label">Resolved</p>
-                  <p className="summary-value">{tickets.filter(t => (t.status || "open") === "resolved").length}</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section className="admin-companies-list-card">
+        <section className="admin-companies-list-card">
           <div className="admin-companies-list-header">
-            <h2>College Queries</h2>
-            <span>{tickets.length} tickets</span>
+            <h2>Incoming Queries</h2>
+            {unreadCount > 0 && <span className="query-count-badge query-count-badge--admin">{unreadCount}</span>}
           </div>
 
-            {loading ? (
-              <p className="admin-companies-status">Loading queries...</p>
-            ) : tickets.length === 0 ? (
-              <p className="admin-companies-status">No queries available for your college yet.</p>
-            ) : (
-              <div className="admin-companies-grid">
-                {tickets.map((ticket) => {
-                  const status = ticket.status || "open";
-                  const badgeClass = `status-${status.replace(/\s+/g, "-")}`;
-                  const date = ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : null;
+          {loading ? (
+            <LoadingSpinner label="Loading student queries..." />
+          ) : tickets.length === 0 ? (
+            <p className="admin-companies-status">No student queries yet.</p>
+          ) : (
+            <div className="admin-companies-grid">
+              {tickets.map((ticket) => {
+                const isUnread = !ticket.adminRead;
+                const studentName = ticket.studentId?.name || "Unknown student";
+                const studentEmail = ticket.studentId?.email || "No email";
+                const isExpanded = expandedTicketId === ticket._id;
 
-                  return (
-                    <article key={ticket._id} className="admin-company-card">
-                      <div className="ticket-left">
-                        <div className="ticket-avatar">{ticket.studentId?.name ? ticket.studentId.name.split(" ").map(n=>n[0]).slice(0,2).join("") : "U"}</div>
-                        <div className="ticket-meta">
+                return (
+                  <article
+                    key={ticket._id}
+                    className={`admin-company-card ${isUnread ? "admin-company-card--unread" : ""} ${
+                      isExpanded ? "admin-company-card--expanded" : ""
+                    }`}
+                  >
+                    <div className="ticket-header-row">
+                      <div className="ticket-avatar">
+                        {studentName
+                          .split(" ")
+                          .map((part) => part[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toUpperCase() || "S"}
+                      </div>
+
+                      <div className="ticket-header-main">
+                        <div className="ticket-header-topline">
                           <h3 className="ticket-subject">{ticket.subject}</h3>
-                          <div className="ticket-info">
-                            <span className="ticket-label">Student:</span>
-                            <span className="ticket-value">{ticket.studentId?.name || "Unknown"}</span>
-                            <span className={`status-badge ${badgeClass}`}>{status}</span>
-                          </div>
+                          <span className="ticket-date">
+                            {ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : "Recent"}
+                          </span>
+                        </div>
+
+                        <div className="ticket-info-row">
+                          <span className="ticket-label">Student:</span>
+                          <span className="ticket-value">{studentName}</span>
+                        </div>
+                        <div className="ticket-info-row ticket-info-row--email">
+                          <span className="ticket-label">Email:</span>
+                          <span className="ticket-value">{studentEmail}</span>
                         </div>
                       </div>
 
-                      <div className="ticket-body">
-                        <p className="ticket-message">{ticket.message}</p>
-                        {date && <p className="ticket-date">{date}</p>}
+                      {isUnread && <span className="query-new-badge">NEW</span>}
+                    </div>
+
+                    <div className="admin-companies-actions ticket-actions">
+                      <button type="button" className="btn-primary" onClick={() => openTicket(ticket)}>
+                        {isExpanded ? "Close" : "Open"}
+                      </button>
+                    </div>
+
+                    {isExpanded && (
+                      <div className="ticket-body admin-query-detail">
+                        <div className="admin-query-detail__body">
+                          <div className="admin-query-section">
+                            <div className="admin-query-section__label">Student Message</div>
+                            <div className="admin-query-message-box">
+                              <p>{ticket.message}</p>
+                              <span className="conversation-bubble__meta">
+                                {ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : ""}
+                              </span>
+                            </div>
+                          </div>
+
+                          {ticket.adminResponse ? (
+                            <div className="admin-query-section">
+                              <div className="admin-query-section__label admin-query-section__label--admin">
+                                Admin Response
+                              </div>
+                              <div className="admin-query-message-box admin-query-message-box--admin">
+                                <p>{ticket.adminResponse}</p>
+                                <span className="conversation-bubble__meta">Previous response</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="admin-query-section">
+                              <div className="admin-query-section__label admin-query-section__label--waiting">
+                                Waiting for admin response
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="admin-query-response-box">
+                          <label className="admin-query-response-box__label">Write a Response</label>
+                          <textarea
+                            value={response}
+                            onChange={(event) => setResponse(event.target.value)}
+                            rows="5"
+                            placeholder="Type your response..."
+                          />
+
+                          <button type="button" className="admin-query-send-btn" onClick={handleSubmit} disabled={saving}>
+                            {saving ? "Sending..." : "Send Response"}
+                          </button>
+                        </div>
                       </div>
-
-                      <div className="admin-companies-actions ticket-actions">
-                        <button type="button" className="btn-primary" onClick={() => openTicket(ticket)}>View / Update</button>
-                        <button type="button" className="btn-danger" onClick={() => handleDelete(ticket._id)} disabled={deleting}>Delete</button>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            )}
-          </section>
-
-          {selectedTicket && (
-            <section className="admin-companies-form-card">
-              <h2>Update Query</h2>
-              <form onSubmit={handleUpdate} className="admin-companies-form">
-                <label>
-                  Status
-                  <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                    <option value="open">Open</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="resolved">Resolved</option>
-                  </select>
-                </label>
-
-                <label>
-                  Admin Response
-                  <textarea value={response} onChange={(e) => setResponse(e.target.value)} rows="4" placeholder="Enter your response" />
-                </label>
-
-                <button type="submit" disabled={saving}>{saving ? "Updating..." : "Save Changes"}</button>
-              </form>
-            </section>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
           )}
-        </div>
+        </section>
+
       </main>
     </div>
   );

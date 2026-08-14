@@ -1,8 +1,32 @@
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { getAllTickets } from "../../services/ticketService";
 import "./AdminNavbar.css";
 
 function AdminNavbar() {
   const navigate = useNavigate();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const loadUnreadCount = async () => {
+      const token = localStorage.getItem("adminToken");
+
+      if (!token) {
+        setUnreadCount(0);
+        return;
+      }
+
+      try {
+        const tickets = await getAllTickets();
+        const count = (tickets || []).filter((ticket) => !ticket.adminRead).length;
+        setUnreadCount(count);
+      } catch (error) {
+        setUnreadCount(0);
+      }
+    };
+
+    loadUnreadCount();
+  }, []);
 
   const handleLogout = () => {
     Object.keys(localStorage).forEach((key) => {
@@ -55,7 +79,8 @@ function AdminNavbar() {
             isActive ? "admin-navbar__link admin-navbar__link--active" : "admin-navbar__link"
           }
         >
-          Queries
+          <span className="nav-label">Student Queries</span>
+          {unreadCount > 0 && <span className="nav-badge nav-badge--admin">{unreadCount}</span>}
         </NavLink>
 
         <NavLink

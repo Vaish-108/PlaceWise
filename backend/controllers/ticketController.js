@@ -1,5 +1,23 @@
 const Ticket = require("../models/Ticket");
 
+const normalizeBoolean = (value) => {
+  if (typeof value === "boolean") return value;
+  if (value === "true") return true;
+  if (value === "false") return false;
+  return undefined;
+};
+
+const ensureTicketAccess = (ticket, req) => {
+  if (req.admin) {
+    return String(ticket.college) === String(req.admin.college);
+  }
+
+  if (req.user) {
+    return String(ticket.studentId) === String(req.user._id);
+  }
+
+  return false;
+};
 
 // CREATE QUERY
 const createTicket = async (req, res) => {
@@ -18,6 +36,8 @@ const createTicket = async (req, res) => {
       college: req.user.college || "",
       subject,
       message,
+      adminRead: false,
+      studentRead: true,
     });
 
 
@@ -107,8 +127,8 @@ const getAllTickets = async (req,res)=>{
 
 
 
-// UPDATE QUERY BY ADMIN
-const updateTicket = async(req,res)=>{
+// UPDATE QUERY BY ADMIN OR STUDENT
+const updateTicket = async (req, res) => {
 
 try{
 
@@ -116,33 +136,41 @@ try{
 const ticket = await Ticket.findById(req.params.id);
 
 
-if(!ticket){
+if (!ticket) {
+      return res.status(404).json({
+        message: "Ticket not found",
+      });
+    }
 
-return res.status(404).json({
-message:"Ticket not found"
-});
+    if (!ensureTicketAccess(ticket, req)) {
+      return res.status(403).json({
+        message: "You are not allowed to access this query.",
+      });
+    }
 
-}
+    if (req.body.status) {
+      ticket.status = req.body.status;
+    }
 
+    if (req.body.adminResponse !== undefined) {
+      ticket.adminResponse = req.body.adminResponse?.trim?.() || "";
+      if (ticket.adminResponse) {
+        ticket.studentRead = false;
+      }
+    }
 
+    const adminReadValue = normalizeBoolean(req.body.adminRead);
+    const studentReadValue = normalizeBoolean(req.body.studentRead);
 
-if(req.body.status){
+    if (adminReadValue !== undefined) {
+      ticket.adminRead = adminReadValue;
+    }
 
-ticket.status=req.body.status;
+    if (studentReadValue !== undefined) {
+      ticket.studentRead = studentReadValue;
+    }
 
-}
-
-
-
-if(req.body.adminResponse!==undefined){
-
-ticket.adminResponse=req.body.adminResponse;
-
-}
-
-
-
-await ticket.save();
+    await ticket.save();
 
 
 
@@ -175,7 +203,7 @@ message:"Server Error"
 
 
 // DELETE QUERY
-const deleteTicket = async(req,res)=>{
+const deleteTicket = async (req, res) => {
 
 try{
 
@@ -183,21 +211,25 @@ try{
 const ticket = await Ticket.findById(req.params.id);
 
 
-if(!ticket){
+if (!ticket) {
+      return res.status(404).json({
+        message: "Ticket not found",
+      });
+    }
 
-return res.status(404).json({
+    if (req.user && String(ticket.studentId) !== String(req.user._id)) {
+      return res.status(403).json({
+        message: "You can only delete your own query.",
+      });
+    }
 
-message:"Ticket not found"
+    if (req.admin && String(ticket.college) !== String(req.admin.college)) {
+      return res.status(403).json({
+        message: "You can only delete queries from your college.",
+      });
+    }
 
-});
-
-}
-
-
-
-await Ticket.deleteOne({
-_id:req.params.id
-});
+    await Ticket.deleteOne({ _id: req.params.id });
 
 
 

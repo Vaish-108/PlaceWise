@@ -1,14 +1,10 @@
 import axios from "axios";
 import { API_URL } from "../apiConfig";
 
-
-// Student token only
 const studentAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem("token")}`,
 });
 
-
-// Admin token only
 const adminAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
 });
@@ -17,13 +13,9 @@ const adminAuthHeaders = () => ({
 
 export const createTicket = async (ticketData) => {
 
-  const response = await axios.post(
-    `${API_URL}/api/tickets`,
-    ticketData,
-    {
-      headers: studentAuthHeaders(),
-    }
-  );
+  const response = await axios.post(`${API_URL}/api/tickets`, ticketData, {
+    headers: studentAuthHeaders(),
+  });
 
   return response.data;
 };
@@ -32,12 +24,9 @@ export const createTicket = async (ticketData) => {
 
 export const getMyTickets = async () => {
 
-  const response = await axios.get(
-    `${API_URL}/api/tickets`,
-    {
-      headers: studentAuthHeaders(),
-    }
-  );
+  const response = await axios.get(`${API_URL}/api/tickets`, {
+    headers: studentAuthHeaders(),
+  });
 
   return response.data;
 };
@@ -46,12 +35,9 @@ export const getMyTickets = async () => {
 
 export const getAllTickets = async () => {
 
-  const response = await axios.get(
-    `${API_URL}/api/tickets/all`,
-    {
-      headers: adminAuthHeaders(),
-    }
-  );
+  const response = await axios.get(`${API_URL}/api/tickets/all`, {
+    headers: adminAuthHeaders(),
+  });
 
   return response.data;
 };

@@ -38,6 +38,16 @@ const ticketSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
+
+    adminRead: {
+      type: Boolean,
+      default: false,
+    },
+
+    studentRead: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

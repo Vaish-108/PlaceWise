@@ -1,7 +1,33 @@
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { getMyTickets } from "../../services/ticketService";
 
 function Navbar() {
   const navigate = useNavigate();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const loadUnreadCount = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setUnreadCount(0);
+        return;
+      }
+
+      try {
+        const tickets = await getMyTickets();
+        const count = (tickets || []).filter(
+          (ticket) => ticket.adminResponse && !ticket.studentRead
+        ).length;
+        setUnreadCount(count);
+      } catch (error) {
+        setUnreadCount(0);
+      }
+    };
+
+    loadUnreadCount();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -38,7 +64,8 @@ function Navbar() {
           Announcements
         </NavLink>
         <NavLink to="/tickets" className={linkClass}>
-          Queries
+          <span className="nav-label">Queries</span>
+          {unreadCount > 0 && <span className="nav-badge">{unreadCount}</span>}
         </NavLink>
         <NavLink to="/profile" className={linkClass}>
           Profile

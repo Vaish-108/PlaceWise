@@ -19,8 +19,6 @@ router.get("/", authMiddleware, getStudentTickets);
 
 router.get("/all", adminAuthMiddleware, getAllTickets);
 
-router.put("/:id", adminAuthMiddleware, updateTicket);
-
 const ticketAuthMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -47,6 +45,7 @@ const ticketAuthMiddleware = async (req, res, next) => {
   return authMiddleware(req, res, next);
 };
 
+router.put("/:id", ticketAuthMiddleware, updateTicket);
 router.delete("/:id", ticketAuthMiddleware, deleteTicket);
 
 module.exports = router;

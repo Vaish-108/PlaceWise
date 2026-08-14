@@ -15,7 +15,7 @@ function RoleSelection() {
       <Container maxWidth="lg" className="role-selection-container">
         <Box className="role-selection-brand">
           <Typography variant="overline" className="role-selection-brand__eyebrow">
-            PlaceWise
+            PLACEWISE
           </Typography>
           <Typography variant="h3" component="h1" className="role-selection-title">
             How would you like to continue?
@@ -31,12 +31,26 @@ function RoleSelection() {
             onClick={() => navigate(`/login?college=${college || ""}`)}
           >
             <Box className="role-card__content">
+              <Box className="role-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 12.5a3.75 3.75 0 1 0-3.75-3.75A3.75 3.75 0 0 0 12 12.5Zm0 1.5c-3.7 0-6.75 2.18-6.75 4.88V20h13.5v-1.12C18.75 16.18 15.7 14 12 14Z" />
+                </svg>
+              </Box>
+
               <Typography variant="h5" component="h2" className="role-card__title">
                 STUDENT
               </Typography>
-              <Typography variant="body2" className="role-card__text">
-                Access your student placement portal
-              </Typography>
+
+              <Box
+                className="role-card__arrow-button"
+                aria-label="Continue as student"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  navigate(`/login?college=${college || ""}`);
+                }}
+              >
+                →
+              </Box>
             </Box>
           </ButtonBase>
 
@@ -45,12 +59,26 @@ function RoleSelection() {
             onClick={() => navigate(`/admin/login?college=${college || ""}`)}
           >
             <Box className="role-card__content">
+              <Box className="role-card__icon role-card__icon--admin" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2.5 18.5 5v5.8c0 4.6-2.62 8.95-6.5 10.7-3.88-1.75-6.5-6.1-6.5-10.7V5L12 2.5Zm0 4.2 3.8 1.6v3.3c0 3.06-1.72 5.86-3.8 7.04-2.08-1.18-3.8-3.98-3.8-7.04V8.3L12 6.7Zm-1 3.8h2v5h-2v-5Zm1 7.1a1.2 1.2 0 1 0 1.2 1.2 1.2 1.2 0 0 0-1.2-1.2Z" />
+                </svg>
+              </Box>
+
               <Typography variant="h5" component="h2" className="role-card__title">
                 ADMIN
               </Typography>
-              <Typography variant="body2" className="role-card__text">
-                Manage your college placement activities
-              </Typography>
+
+              <Box
+                className="role-card__arrow-button"
+                aria-label="Continue as admin"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  navigate(`/admin/login?college=${college || ""}`);
+                }}
+              >
+                →
+              </Box>
             </Box>
           </ButtonBase>
         </Box>

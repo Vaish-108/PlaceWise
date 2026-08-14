@@ -1,6 +1,4 @@
-import axios from "axios";
-import { API_URL } from "../../apiConfig";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Button,
@@ -16,27 +14,17 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import {
   createTicket,
   getMyTickets,
-  getAllTickets,
   updateTicket,
   deleteTicket,
 } from "../../services/ticketService";
 
-const statusLabels = {
-  open: "Open",
-  "in-progress": "In Progress",
-  resolved: "Resolved",
-};
-
 function Tickets() {
   const [tickets, setTickets] = useState([]);
-  const [adminTickets, setAdminTickets] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [expandedTicketId, setExpandedTicketId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
-  const [deletingId, setDeletingId] = useState(null);
-  const [expandedTickets, setExpandedTickets] = useState({});
+  const [notice, setNotice] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [ticketToDelete, setTicketToDelete] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -46,174 +34,87 @@ function Tickets() {
     subject: "",
     message: "",
   });
-  const [adminUpdates, setAdminUpdates] = useState({});
 
-  const getUserProfile = async () => {
-    const token = localStorage.getItem("adminToken") || localStorage.getItem("token");
-
-    if (!token) {
-      throw new Error("Authentication token is missing.");
-    }
-
-    if (localStorage.getItem("adminToken")) {
-      const response = await axios.get(`${API_URL}/api/admin/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      return response.data;
-    }
-
-    const response = await axios.get(`${API_URL}/api/auth/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return response.data;
-  };
-
-  const loadTickets = async (adminUser = false) => {
+  const loadTickets = async () => {
     try {
       setLoading(true);
       setError("");
+      const data = await getMyTickets();
+      setTickets(data || []);
 
-      const myTickets = await getMyTickets();
-      setTickets(myTickets);
-
-      if (adminUser) {
-        const allTickets = await getAllTickets();
-        setAdminTickets(allTickets);
+      if (expandedTicketId && !(data || []).some((ticket) => ticket._id === expandedTicketId)) {
+        setExpandedTicketId(null);
       }
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Unable to load queries. Please try again."
-      );
+      setError(err.response?.data?.message || "Unable to load queries.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    const initialize = async () => {
-      try {
-        const profile = await getUserProfile();
-        const adminUser = profile.role === "admin";
-        setIsAdmin(adminUser);
-        await loadTickets(adminUser);
-      } catch (err) {
-        setError(
-          err.response?.data?.message ||
-            "Unable to load query workspace."
-        );
-        setLoading(false);
-      }
-    };
-
-    initialize();
+    loadTickets();
   }, []);
 
   useEffect(() => {
-    if (!message) {
+    if (!notice) {
       return undefined;
     }
 
-    const timer = window.setTimeout(() => {
-      setMessage("");
-    }, 3000);
-
+    const timer = window.setTimeout(() => setNotice(""), 3000);
     return () => window.clearTimeout(timer);
-  }, [message]);
+  }, [notice]);
 
-  const toggleExpanded = (ticketId) => {
-    setExpandedTickets((prev) => ({
-      ...prev,
-      [ticketId]: !prev[ticketId],
-    }));
-  };
-
-  const getPreviewText = (text, isExpanded) => {
-    if (isExpanded) {
-      return text;
-    }
-
-    const lines = text.split(/\n/).filter(Boolean);
-    if (lines.length > 2) {
-      return `${lines.slice(0, 2).join("\n")}...`;
-    }
-
-    if (text.length > 180) {
-      return `${text.slice(0, 180)}...`;
-    }
-
-    return text;
-  };
-
-  const shouldShowToggle = (text, isExpanded) => {
-    if (isExpanded) {
-      return true;
-    }
-
-    const lines = text.split(/\n/).filter(Boolean);
-    return text.length > 180 || lines.length > 2;
-  };
+  const unreadCount = useMemo(
+    () => tickets.filter((ticket) => ticket.adminResponse && !ticket.studentRead).length,
+    [tickets]
+  );
 
   const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!formData.subject.trim() || !formData.message.trim()) {
+      setError("Please add both a subject and your message.");
+      return;
+    }
+
     try {
       setSubmitting(true);
-      setMessage("");
       setError("");
-
-      await createTicket(formData);
+      await createTicket({
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+      });
 
       setFormData({ subject: "", message: "" });
-      setMessage("Query submitted successfully.");
-      await loadTickets(isAdmin);
+      setNotice("Query submitted successfully.");
+      const updatedTickets = await getMyTickets();
+      setTickets(updatedTickets || []);
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to submit query."
-      );
+      setError(err.response?.data?.message || "Failed to submit query.");
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleAdminChange = (ticketId, field, value) => {
-    setAdminUpdates((prev) => ({
-      ...prev,
-      [ticketId]: {
-        ...prev[ticketId],
-        [field]: value,
-      },
-    }));
-  };
+  const openTicket = async (ticket) => {
+    const isOpening = expandedTicketId !== ticket._id;
 
-  const handleAdminUpdate = async (ticketId) => {
-    try {
-      setError("");
-      setMessage("");
+    setExpandedTicketId(isOpening ? ticket._id : null);
 
-      const payload = adminUpdates[ticketId] || {};
-      await updateTicket(ticketId, payload);
-      setMessage("Query updated successfully.");
-      await loadTickets(isAdmin);
-    } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to update query."
-      );
+    if (ticket.adminResponse && !ticket.studentRead) {
+      try {
+        const response = await updateTicket(ticket._id, { studentRead: true });
+        const updated = response?.ticket || { ...ticket, studentRead: true };
+        setTickets((prev) => prev.map((item) => (item._id === ticket._id ? updated : item)));
+      } catch (err) {
+        console.error("Failed to mark query as read:", err);
+      }
     }
   };
 
@@ -222,48 +123,32 @@ function Tickets() {
     setDeleteDialogOpen(true);
   };
 
-  const handleDeleteCancel = () => {
-    setDeleteDialogOpen(false);
-    setTicketToDelete(null);
-  };
-
   const handleDeleteConfirm = async () => {
     if (!ticketToDelete) {
       return;
     }
 
     try {
-      setDeletingId(ticketToDelete);
-      setError("");
-      setMessage("");
-
       const response = await deleteTicket(ticketToDelete);
-
-      if (response?.success === false) {
-        throw new Error(response?.message || "Failed to delete query.");
-      }
-
       setTickets((prevTickets) =>
         prevTickets.filter((ticket) => ticket._id !== ticketToDelete)
       );
-      setAdminTickets((prevTickets) =>
-        prevTickets.filter((ticket) => ticket._id !== ticketToDelete)
-      );
+
+      if (expandedTicketId === ticketToDelete) {
+        setExpandedTicketId(null);
+      }
+
       setDeleteDialogOpen(false);
       setTicketToDelete(null);
       setSnackbarMessage(response?.message || "Query deleted successfully.");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
-      setMessage("Query deleted successfully.");
     } catch (err) {
-      const backendMessage = err.response?.data?.message || err.message || "Failed to delete query.";
-      console.error("Delete ticket failed:", err.response?.data || err.message || err);
-      setError(backendMessage);
-      setSnackbarMessage(backendMessage);
+      const message = err.response?.data?.message || "Failed to delete query.";
+      setError(message);
+      setSnackbarMessage(message);
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
-    } finally {
-      setDeletingId(null);
     }
   };
 
@@ -271,34 +156,36 @@ function Tickets() {
     <div className="page-shell">
       <Navbar />
 
-      <main className="page-content">
-        <section className="page-header">
+      <main className="page-content tickets-page-content">
+        <section className="page-header tickets-page-header">
           <div>
-            <p className="eyebrow">Queries</p>
-            <h1>Student Queries</h1>
+            <p className="eyebrow">Student Portal</p>
+            <h1>Queries</h1>
             <p className="page-subtitle">
-              Submit placement questions and track admin responses in one place.
+              Send your questions to the placement admin and track their responses.
             </p>
           </div>
         </section>
 
-        {message && <div className="alert alert-success">{message}</div>}
+        {notice && <div className="alert alert-success">{notice}</div>}
         {error && <div className="alert alert-error">{error}</div>}
 
-        <section className="panel ticket-form-panel">
-          <h2>New Query</h2>
+        <section className="panel ticket-form-panel tickets-form-panel">
+          <div className="tickets-section-header">
+            <h2>New Query</h2>
+          </div>
           <form className="stack-form" onSubmit={handleSubmit}>
             <input
               type="text"
               name="subject"
-              placeholder="Query title"
+              placeholder="Query subject"
               value={formData.subject}
               onChange={handleChange}
               required
             />
             <textarea
               name="message"
-              placeholder="Describe your query in detail"
+              placeholder="Describe your query"
               value={formData.message}
               onChange={handleChange}
               rows="5"
@@ -310,191 +197,131 @@ function Tickets() {
           </form>
         </section>
 
-        {loading && <LoadingSpinner label="Loading queries..." />}
+        {loading ? (
+          <LoadingSpinner label="Loading queries..." />
+        ) : (
+          <section className="panel tickets-panel">
+            <div className="student-query-header">
+              <h2>My Queries</h2>
+              {unreadCount > 0 && <span className="query-count-badge">{unreadCount} New</span>}
+            </div>
 
-        {!loading && (
-          <section className="panel">
-            <h2>My Queries</h2>
             {tickets.length === 0 ? (
-              <div className="empty-state compact empty-state--queries">
+              <div className="empty-state compact empty-state--queries tickets-empty-state">
                 <span className="empty-state__icon">📝</span>
-                <p>No Queries Found</p>
+                <p className="empty-state__title">No queries yet.</p>
+                <p className="empty-state__subtitle">
+                  Have a question about placements? Send your first query to the admin.
+                </p>
               </div>
             ) : (
               <div className="ticket-list">
-                {tickets.map((ticket) => (
-  <article key={ticket._id} className="ticket-card">
-    
-    <div className="ticket-card__header">
-      <h3>{ticket.subject}</h3>
+                {tickets.map((ticket) => {
+                  const isUnread = Boolean(ticket.adminResponse && !ticket.studentRead);
+                  const isExpanded = expandedTicketId === ticket._id;
 
-      <div className="ticket-card__actions">
-
-        <button
-          type="button"
-          className="btn btn-secondary delete-btn"
-          onClick={() => handleDeleteClick(ticket._id)}
-          disabled={deletingId === ticket._id}
-        >
-          {deletingId === ticket._id ? "Deleting..." : "Delete"}
-        </button>
-      </div>
-    </div>
-
-    <p className="ticket-preview">
-      {getPreviewText(
-        ticket.message,
-        expandedTickets[ticket._id]
-      )}
-    </p>
-
-    {shouldShowToggle(
-      ticket.message,
-      expandedTickets[ticket._id]
-    ) && (
-      <div className="ticket-expand-row">
-        <button
-          type="button"
-          className="show-more-link"
-          onClick={() => toggleExpanded(ticket._id)}
-        >
-          {expandedTickets[ticket._id]
-            ? "Show Less"
-            : "Show More"}
-        </button>
-      </div>
-    )}
-
-    {ticket.adminResponse && (
-      <div className="admin-response">
-        <strong>Admin Response:</strong>
-        <p>{ticket.adminResponse}</p>
-      </div>
-    )}
-
-    <div className="ticket-created">
-      Created: {new Date(ticket.createdAt).toLocaleString()}
-    </div>
-
-  </article>
-))}
-              </div>
-            )}
-          </section>
-        )}
-
-        {isAdmin && !loading && (
-          <section className="panel admin-panel">
-            <h2>Admin Query Management</h2>
-            {adminTickets.length === 0 ? (
-              <div className="empty-state compact empty-state--queries">
-                <span className="empty-state__icon">📝</span>
-                <p>No Queries Found</p>
-              </div>
-            ) : (
-              <div className="ticket-list">
-                {adminTickets.map((ticket) => (
-                  <article key={ticket._id} className="ticket-card">
-                    <div className="ticket-card__header">
-                      <h3>{ticket.subject}</h3>
-                      <div className="ticket-card__actions">
-                        <span className={`status-badge status-${ticket.status}`}>
-                          {statusLabels[ticket.status] || ticket.status}
+                  return (
+                    <article
+                      key={ticket._id}
+                      className={`query-card ${isUnread ? "query-card--unread" : ""} ${
+                        isExpanded ? "query-card--expanded" : ""
+                      }`}
+                    >
+                      <div className="query-card__top">
+                        <div className="query-card__title-block">
+                          <h3>{ticket.subject}</h3>
+                        </div>
+                        <span className="query-card__time">
+                          {new Date(ticket.createdAt).toLocaleString()}
                         </span>
-                        <button
-                          type="button"
-                          className="btn btn-secondary delete-btn"
-                          onClick={() => handleDeleteClick(ticket._id)}
-                          disabled={deletingId === ticket._id}
-                        >
-                          {deletingId === ticket._id ? "Deleting..." : "Delete"}
-                        </button>
                       </div>
-                    </div>
-                    <p className="ticket-preview">
-                      {getPreviewText(ticket.message, expandedTickets[ticket._id])}
-                    </p>
-                    {shouldShowToggle(ticket.message, expandedTickets[ticket._id]) && (
-                      <button
-                        type="button"
-                        className="show-more-link"
-                        onClick={() => toggleExpanded(ticket._id)}
-                      >
-                        {expandedTickets[ticket._id] ? "Show Less" : "Show More"}
-                      </button>
-                    )}
-                    <p className="ticket-meta">
-                      Student: {ticket.studentId?.name || "Unknown"} (
-                      {ticket.studentId?.email || "N/A"})
-                    </p>
 
-                    <div className="admin-controls">
-                      <select
-                        defaultValue={ticket.status}
-                        onChange={(event) =>
-                          handleAdminChange(ticket._id, "status", event.target.value)
-                        }
-                      >
-                        <option value="open">Open</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="resolved">Resolved</option>
-                      </select>
+                      <div className="query-card__summary">
+                        <div
+                          className={`query-card__status ${
+                            isUnread ? "query-card__status--new" : "query-card__status--pending"
+                          }`}
+                        >
+                          <span className="status-dot" />
+                          <span>{isUnread ? "Admin replied" : "Waiting for admin response"}</span>
+                        </div>
+                      </div>
 
-                      <textarea
-                        placeholder="Admin response"
-                        defaultValue={ticket.adminResponse || ""}
-                        rows="3"
-                        onChange={(event) =>
-                          handleAdminChange(
-                            ticket._id,
-                            "adminResponse",
-                            event.target.value
-                          )
-                        }
-                      />
+                      {isExpanded && (
+                        <div className="query-card__detail">
+                          <div className="query-card__detail-section">
+                            <div className="query-card__label">Your Message</div>
+                            <div className="query-card__content-box">{ticket.message}</div>
+                          </div>
 
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={() => handleAdminUpdate(ticket._id)}
-                      >
-                        Update Query
-                      </button>
-                    </div>
-                  </article>
-                ))}
+                          {ticket.adminResponse ? (
+                            <div className="query-card__detail-section">
+                              <div className="query-card__label query-card__label--admin">
+                                Admin Response
+                              </div>
+                              <div className="query-card__content-box query-card__content-box--admin">
+                                {ticket.adminResponse}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="query-card__detail-section">
+                              <div className="query-card__label query-card__label--waiting">
+                                Waiting for admin response
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="query-card__footer">
+                        <div className="query-card__meta">
+                          {ticket.adminResponse ? "Admin response available" : "No response yet"}
+                        </div>
+
+                        <div className="query-card__actions">
+                          <button
+                            type="button"
+                            className="btn btn-secondary query-open-btn"
+                            onClick={() => openTicket(ticket)}
+                          >
+                            {isExpanded ? "Close" : "Open"}
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-secondary query-delete-btn"
+                            onClick={() => handleDeleteClick(ticket._id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             )}
           </section>
         )}
+
       </main>
 
-      <Dialog open={deleteDialogOpen} onClose={handleDeleteCancel}>
-        <DialogTitle>Delete Query</DialogTitle>
+      <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+        <DialogTitle>Delete this query?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this query?
-            This action cannot be undone.
+            Are you sure you want to delete this query? This action cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteCancel}>Cancel</Button>
-          <Button onClick={handleDeleteConfirm} color="error" variant="contained">
+          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+          <Button color="error" variant="contained" onClick={handleDeleteConfirm}>
             Delete
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-          variant="filled"
-        >
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => setSnackbarOpen(false)}>
+        <Alert severity={snackbarSeverity} onClose={() => setSnackbarOpen(false)} variant="filled">
           {snackbarMessage}
         </Alert>
       </Snackbar>

@@ -54,18 +54,32 @@ setAnnouncements(data || []);
         ) : error ? (
           <div className="announcements-state announcements-state-error">{error}</div>
         ) : announcements.length === 0 ? (
-          <div className="announcements-state">No announcements available at the moment.</div>
+          <div className="announcements-state announcements-state-empty">
+            <h2>No announcements yet</h2>
+            <p>Your college placement announcements will appear here.</p>
+          </div>
         ) : (
           <div className="announcements-list">
             {announcements.map((announcement) => (
               <article key={announcement._id} className="announcement-card">
                 <div className="announcement-card__header">
-                  <h3>{announcement.title}</h3>
-                  <span>{formatDate(announcement.createdAt)}</span>
+                  <div className="announcement-card__eyebrow">
+                    <span className="announcement-card__dot" aria-hidden="true" />
+                    <span>Announcement</span>
+                  </div>
+                  <time className="announcement-card__date" dateTime={announcement.createdAt || ""}>
+                    {formatDate(announcement.createdAt)}
+                  </time>
                 </div>
+
+                <h3>{announcement.title}</h3>
                 <p>{announcement.message}</p>
+
                 <div className="announcement-card__footer">
-                  <span>Posted by {announcement.createdBy?.name || "Admin"}</span>
+                  <span className="announcement-card__author-icon" aria-hidden="true">
+                    •
+                  </span>
+                  <span>Posted by {announcement.createdBy?.name || "PlaceWise Admin"}</span>
                 </div>
               </article>
             ))}
